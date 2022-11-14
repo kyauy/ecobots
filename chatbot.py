@@ -76,7 +76,7 @@ data = {"intents": [
              # "responses": ["Je suis animatrice de temps périscolaire. J'aime mon métier."]
              #},
              {"tag": "interrogation",
-              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?'],
+              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG'],
               "responses": ["Que voulez vous dire Docteur ?", "C'est à dire Docteur ?", "Je ne comprends pas Docteur ?", "C'est à dire Docteur ?"]
              },
              {"tag": "age",
@@ -87,10 +87,10 @@ data = {"intents": [
               "patterns": ["Avez vous des maladies ?", "Avez vous déjà été opéré ?"],
               "responses": ["Je n'ai jamais été malade"]
              },
-              {"tag": "antecedantfam",
-              "patterns": ["Il y a t'il des membres de votre famille qui sont malades?", "Des maladies dans votre famille?"],
-              "responses": ["Pas à ma connaissance", "Je ne crois pas"]
-             },
+            #  {"tag": "antecedantfam",
+            #  "patterns": ["Il y a t'il des membres de votre famille qui sont malades?", "Des maladies dans votre famille?"],
+            #  "responses": ["Pas à ma connaissance", "Je ne crois pas"]
+             #},
              # {"tag": "allergie",
              # "patterns": ["Avez vous des allergies?", "Etes vous allergique à quelque chose?"],
              # "responses": ["A la pénicilline, docteur. J'ai eu plein de boutons."]
@@ -105,7 +105,7 @@ data = {"intents": [
              },
              {"tag": "stress2",
               "patterns": ["Pourquoi êtes vous stressée ?", "Qu'est ce qui vous stresse ?"],
-              "responses": ["J'ai peur des résultats que vous allez m'annoncer", "J'attendais les résultats que vous allez m'annoncer.", "Les "]
+              "responses": ["J'ai peur des résultats que vous allez m'annoncer", "J'attendais les résultats que vous allez m'annoncer."]
              },
              {"tag": "name",
               "patterns": ["Quel est votre nom?", "Comment vous vous appelez?"],
@@ -120,15 +120,15 @@ data = {"intents": [
               "responses": ["Je vous ecoute Docteur."]
              },
              {"tag": "action1",
-              "patterns": ["L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970 qu'il nous faut explorer.", "Les examens ont retrouvé un risque qu'il faut explorer davantage de trisomie 21.", "La dernière fois, nous avions réalisé un depistage de la trisomie 21. Ce depistage est revenu avec un risque modéré. Nous devons faire d'autres analyses pour exclure ce diagnostic.", "Nous pouvons vous proposer un depistage non invasif par analyse de l'ADN libre circulant." ],
+              "patterns": ["L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970 qu'il nous faut explorer.", "Les examens ont retrouvé un risque qu'il faut explorer davantage de trisomie 21.", "La dernière fois, nous avions réalisé un depistage de la trisomie 21. Ce depistage est revenu avec un risque modéré. Nous devons faire d'autres analyses pour exclure ce diagnostic." ],
               "responses": ["C'est grave la trisomie ?", "Vous pouvez m'en dire plus sur la trisomie ?"]
              },
              {"tag": "action2",
-              "patterns": ["La trisomie 21 est une maladie génétique qui associe des signes physiques et une atteinte neuro-neurodéveloppementale pour lequel une prise en charge précoce permet de mieux les accompagner.", "C'est une maladie grave", "L'atteinte peut êre variable mais toujours avec une déficience mentale au moins modérée." , "L'atteinte peut êre variable mais toujours avec un handicap intellectuel.", "La trisomie 21 est une maladie très variable dans l'expression, mais ici il s'agit uniquement d'un risque et nous ne sommes pas sur." ],
+              "patterns": ["La trisomie 21 est une maladie génétique qui associe des signes physiques et une atteinte neuro-neurodéveloppementale pour lequel une prise en charge précoce permet de mieux les accompagner.", "C'est une maladie grave", "L'atteinte peut êre variable mais toujours avec une déficience mentale au moins modérée." , "L'atteinte peut êre variable mais toujours avec un handicap intellectuel.", "La trisomie 21 est une maladie très variable dans l'expression, mais ici il s'agit uniquement d'un risque et nous ne sommes pas sur." ,  "Il peut avoir une déficience intellectuelle au moins modérée, avec un handicap.", "Des malformations, un deficit attentionnel est possible, des infections, un retard de langage, des malformations cardiaques peuvent survenir."],
               "responses": ["Que faire Docteur pour être sur ?"]
              },
              {"tag": "action3",
-              "patterns": ["Nous devons faire une prise de sang, qui va rechercher la trisomie 21.", "Il s'agit d'une prise de sang", "Il s'agit d'une prise de sang"],
+              "patterns": ["Nous devons faire une prise de sang, qui va rechercher la trisomie 21.", "Il s'agit d'une prise de sang", "Il s'agit d'une prise de sang", "Nous pouvons vous proposer un depistage non invasif par analyse de l'ADN libre circulant."],
               "responses": ["Qu'est ce qui va se passer par la suite ?"]
              },
              {"tag": "action4",
@@ -136,24 +136,28 @@ data = {"intents": [
               "responses": ["C'est quoi l'amniocentèse ? C'est dangereux ?"]
              },
              {"tag": "action5",
-              "patterns": ["C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique. Le risque de fausse couche est de 1/100."],
-              "responses": ["Je ne suis pas sur de vouloir..."]
+              "patterns": ["C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique. Le risque de fausse couche est de 1/100.", "Le risque de fausse couche est de 1/100.", "C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique de la trisomie 21." ],
+              "responses": ["Je ne suis pas sur de vouloir un enfant avec une trisomie..."]
              },
             {"tag": "action6",
               "patterns": ["Si vous le souhaitez, une interruption médicale de grossesse serait possible, après discusssion avec mes collegues.", "Pensez vous a interompre la grossesse ?", "Si votre enfant devait etre porteur d'une trisomie 21, cela changerait il quelque chose pour vous ? Pour la poursuite de la grossesse ?"],
               "responses": ["Si je veux garder mon enfant, que vas t'il se passer ?"]
              },
             {"tag": "action7",
-              "patterns": ["Si vous le souhaitez, une interruption médicale de grossesse serait possible, après discusssion avec mes collegues.", "Pensez vous a interompre la grossesse ?", "Si votre enfant devait etre porteur d'une trisomie 21, cela changerait il quelque chose pour vous ? Pour la poursuite de la grossesse ?"],
-              "responses": ["Je vais prendre le temps de réflechir..."]
+              "patterns": ["Il faut prendre en charge précocement les complications médicales et débuter rapidement les rééducations pour l'accompagner aux mieux afin d'éviter le sur-handicap.", "Nous l'aiderons et rechercher les principales complication et les traiter afin d’éviter en particulier le sur-handicap. Il aura une marge de progression et la majorité des patients ont une certaine autonomie.", "Il sera accompagné et stimulé dans son enfance avec de la kiné, de l'orthophonie, de la psychomotricité, de l'ergothérapie, afin de lui permettre d'avoir la meilleure autonomie possible. Nous surveillerons les complications qui pourraient survenir, il et vous serez accompagné."],
+              "responses": ["Je vais prendre le temps de réflechir avec vos explications."]
              },
              {"tag": "question",
               "patterns": [ "Avez vous encore des questions ?", "Avez vous des interrogations ?"],
               "responses": ["Pas pour le moment Docteur"]
              },
+             {"tag": "question2",
+              "patterns": [ "Avez vous bien compris ?", "Voulez vous qu'on reprenne quelque chose ?"],
+              "responses": ["C'est clair Docteur"]
+             },
              {"tag": "goodbye",
               "patterns": [ "bye", "Au revoir", "see ya", "adios", "cya", "Au retour madame", "Je vous tiens au courant."],
-              "responses": ["Merci Docteur"]
+              "responses": ["Merci Docteur."]
              }]
 }
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
