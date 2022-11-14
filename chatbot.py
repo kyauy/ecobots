@@ -76,7 +76,7 @@ data = {"intents": [
              # "responses": ["Je suis animatrice de temps périscolaire. J'aime mon métier."]
              #},
              {"tag": "interrogation",
-              "patterns": ["Pourquoi?", ""],
+              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?'],
               "responses": ["Que voulez vous dire Docteur ?", "C'est à dire Docteur ?", "Je ne comprends pas Docteur ?", "C'est à dire Docteur ?"]
              },
              {"tag": "age",
@@ -295,7 +295,7 @@ if 'past' not in st.session_state:
     st.session_state['past'] = []
 
 def query(user_input):
-    intents = pred_class(user_input, words, classes)
+    intents = pred_class(user_input.lower(), words, classes)
     result = get_response(intents, data) 
     return result
 
