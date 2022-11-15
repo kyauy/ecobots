@@ -61,7 +61,7 @@ st.sidebar.image(image_chu, caption=None, width=95)
 # utilisation d'un dictionnaire pour représenter un fichier JSON d'intentions
 data = {"intents": [
              {"tag": "greeting",
-              "patterns": ["Hello", "La forme?", "yo", "Salut", "Bonjour", "Bonjour Mme MIKI", 'Bonjour Madame'],
+              "patterns": ["Hello", "Bonjour", "Bonjour Mme MIKI", 'Bonjour Madame'],
               "responses": ["Bonjour Docteur"],
              },
              {"tag": "taille",
@@ -77,16 +77,16 @@ data = {"intents": [
              # "responses": ["Je suis animatrice de temps périscolaire. J'aime mon métier."]
              #},
              {"tag": "interrogation",
-              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG', "je suis perdu", "c'est difficile à dire", "les resultats", "bouh"],
+              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG', "je suis perdu", "c'est difficile à dire", "les resultats", "bouh", "vous avez raison."],
               "responses": ["Que voulez vous dire Docteur ?", "C'est à dire Docteur ?", "Je ne comprends pas Docteur ?", "C'est à dire Docteur ?"]
              },
              {"tag": "age",
-              "patterns": ["Quel âge avez vous?", "Quand êtes-vous né?", "Quand etes vous né?", "Vous avez quel age ?"],
+              "patterns": ["Quel âge avez vous?", "Vous avez quel age ?"],
               "responses": ["J'ai 25 ans"]
              },
               {"tag": "antecedant",
               "patterns": ["Avez vous des maladies ?", "Avez vous déjà été opéré ?"],
-              "responses": ["Je n'ai jamais été malade"]
+              "responses": ["Je n'ai jamais été malade."]
              },
             #  {"tag": "antecedantfam",
             #  "patterns": ["Il y a t'il des membres de votre famille qui sont malades?", "Des maladies dans votre famille?"],
@@ -98,11 +98,11 @@ data = {"intents": [
              #},
               {"tag": "tabac",
               "patterns": ["Est ce que vous fumez?"],
-              "responses": ["Oui Docteur, a peu près 5 cigarettes par jour."]
+              "responses": ["Oui Docteur, à peu près 5 cigarettes par jour."]
              },
              {"tag": "stress",
               "patterns": ["Comment allez vous?", "Comment ca va?", "Comment allez-vous?", "ca va ?"],
-              "responses": ["Je suis assez stressé par le rendez vous", "Un peu stressé"]
+              "responses": ["Je suis assez stressée par le rendez vous", "Un peu stressée"]
              },
              {"tag": "stress2",
               "patterns": ["Pourquoi êtes vous stressée ?", "Qu'est ce qui vous stresse ?"],
@@ -113,7 +113,7 @@ data = {"intents": [
               "responses": ["Mme Miki"]
              },
              {"tag": "motif",
-              "patterns": ["Qu'est ce qui vous amene?", "Dites moi."],
+              "patterns": ["Qu'est ce qui vous amene?", "Savez vous pourquoi on se voit aujourd'hui ?", "Vous vous souvenez pourquoi nous avons rendez-vous aujourd'hui?"],
               "responses": ["Je viens vous consulter pour avoir le résultat des prises de sang..."]
              },
              {"tag": "motifdoc",
@@ -132,7 +132,7 @@ data = {"intents": [
               "patterns": ["Nous devons faire une prise de sang, qui va rechercher la trisomie 21.", "Il s'agit d'une prise de sang", "Il s'agit d'une prise de sang", "Nous pouvons vous proposer un depistage non invasif par analyse de l'ADN libre circulant."],
               "responses": ["Qu'est ce qui va se passer par la suite ?"]
              },
-             {"tag": "Amnicocentese",
+             {"tag": "Amniocentese",
               "patterns": ["Si le test est négatif, le suivi de la grossesse est normal. Si le doute persiste, nous devrons faire une amniocentèse pour avoir le diagnostic", "Si le test est positif, nous devrons faire une amniocentese pour determiner le diagnostic."],
               "responses": ["C'est quoi l'amniocentèse ? C'est dangereux ?"]
              },
@@ -150,15 +150,15 @@ data = {"intents": [
              },
              {"tag": "question",
               "patterns": [ "Avez vous encore des questions ?", "Avez vous des interrogations ?"],
-              "responses": ["Pas pour le moment Docteur"]
+              "responses": ["Pas pour le moment Docteur."]
              },
              {"tag": "question2",
               "patterns": [ "Avez vous bien compris ?", "Voulez vous qu'on reprenne quelque chose ?"],
-              "responses": ["C'est clair Docteur"]
+              "responses": ["C'est clair Docteur."]
              },
              {"tag": "goodbye",
-              "patterns": [ "Au revoir", "Au revoir madame"],
-              "responses": ["Merci Docteur."]
+              "patterns": [ "Au revoir", "Au revoir madame", "On se revoit bientot.", "A bientôt madame"],
+              "responses": ["Merci. Au revoir Docteur."]
              }]
 }
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
@@ -277,7 +277,7 @@ def pred_class(text, vocab, labels):
   return_list_comp = []
   for r in y_pred:
     return_list.append(labels[r[0]])
-    return_list_comp.append({"reponse": labels[r[0]], "confiance": float(r[1])})
+    return_list_comp.append({"response": labels[r[0]], "confidence": float(r[1])})
   return return_list, return_list_comp
 
 def get_response(intents_list, intents_json): 
@@ -305,7 +305,7 @@ def query(user_input, debug):
     intents, return_list_comp = pred_class(user_input.lower(), words, classes)
     if debug == "On":
       st.write(pd.DataFrame(return_list_comp))
-    if return_list_comp[0]["confiance"] < 0.6:
+    if return_list_comp[0]["confidence"] < 0.6:
       result = "Pouvez vous répéter Docteur? je n'ai pas bien saisi."
     else:
       result = get_response(intents, data) 
