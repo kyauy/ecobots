@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 from streamlit_chat import message
 from PIL import Image
 import json
@@ -76,7 +77,7 @@ data = {"intents": [
              # "responses": ["Je suis animatrice de temps périscolaire. J'aime mon métier."]
              #},
              {"tag": "interrogation",
-              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG'],
+              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG', "je suis perdu", "c'est difficile à dire"],
               "responses": ["Que voulez vous dire Docteur ?", "C'est à dire Docteur ?", "Je ne comprends pas Docteur ?", "C'est à dire Docteur ?"]
              },
              {"tag": "age",
@@ -119,31 +120,31 @@ data = {"intents": [
               "patterns": ["On se voit aujourd'hui car j'ai recu des résultats d'examens pour vous.", "J'ai recu des resultats des analyses."],
               "responses": ["Je vous ecoute Docteur."]
              },
-             {"tag": "action1",
+             {"tag": "pronoT21",
               "patterns": ["L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970 qu'il nous faut explorer.", "Les examens ont retrouvé un risque qu'il faut explorer davantage de trisomie 21.", "La dernière fois, nous avions réalisé un depistage de la trisomie 21. Ce depistage est revenu avec un risque modéré. Nous devons faire d'autres analyses pour exclure ce diagnostic." ],
               "responses": ["C'est grave la trisomie ?", "Vous pouvez m'en dire plus sur la trisomie ?"]
              },
-             {"tag": "action2",
+             {"tag": "confirmT21",
               "patterns": ["La trisomie 21 est une maladie génétique qui associe des signes physiques et une atteinte neuro-neurodéveloppementale pour lequel une prise en charge précoce permet de mieux les accompagner.", "C'est une maladie grave", "L'atteinte peut êre variable mais toujours avec une déficience mentale au moins modérée." , "L'atteinte peut êre variable mais toujours avec un handicap intellectuel.", "La trisomie 21 est une maladie très variable dans l'expression, mais ici il s'agit uniquement d'un risque et nous ne sommes pas sur." ,  "Il peut avoir une déficience intellectuelle au moins modérée, avec un handicap.", "Des malformations, un deficit attentionnel est possible, des infections, un retard de langage, des malformations cardiaques peuvent survenir."],
               "responses": ["Que faire Docteur pour être sur ?"]
              },
-             {"tag": "action3",
+             {"tag": "postDPNI",
               "patterns": ["Nous devons faire une prise de sang, qui va rechercher la trisomie 21.", "Il s'agit d'une prise de sang", "Il s'agit d'une prise de sang", "Nous pouvons vous proposer un depistage non invasif par analyse de l'ADN libre circulant."],
               "responses": ["Qu'est ce qui va se passer par la suite ?"]
              },
-             {"tag": "action4",
+             {"tag": "Amnicocentese",
               "patterns": ["Si le test est négatif, le suivi de la grossesse est normal. Si le doute persiste, nous devrons faire une amniocentèse pour avoir le diagnostic", "Si le test est positif, nous devrons faire une amniocentese pour determiner le diagnostic."],
               "responses": ["C'est quoi l'amniocentèse ? C'est dangereux ?"]
              },
-             {"tag": "action5",
+             {"tag": "questIMG",
               "patterns": ["C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique. Le risque de fausse couche est de 1/100.", "Le risque de fausse couche est de 1/100.", "C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique de la trisomie 21." ],
               "responses": ["Je ne suis pas sur de vouloir un enfant avec une trisomie..."]
              },
-            {"tag": "action6",
+            {"tag": "devT21",
               "patterns": ["Si vous le souhaitez, une interruption médicale de grossesse serait possible, après discusssion avec mes collegues.", "Pensez vous a interompre la grossesse ?", "Si votre enfant devait etre porteur d'une trisomie 21, cela changerait il quelque chose pour vous ? Pour la poursuite de la grossesse ?"],
               "responses": ["Si je veux garder mon enfant, que vas t'il se passer ?"]
              },
-            {"tag": "action7",
+            {"tag": "reflexionIMG",
               "patterns": ["Il faut prendre en charge précocement les complications médicales et débuter rapidement les rééducations pour l'accompagner aux mieux afin d'éviter le sur-handicap.", "Nous l'aiderons et rechercher les principales complication et les traiter afin d’éviter en particulier le sur-handicap. Il aura une marge de progression et la majorité des patients ont une certaine autonomie.", "Il sera accompagné et stimulé dans son enfance avec de la kiné, de l'orthophonie, de la psychomotricité, de l'ergothérapie, afin de lui permettre d'avoir la meilleure autonomie possible. Nous surveillerons les complications qui pourraient survenir, il et vous serez accompagné."],
               "responses": ["Je vais prendre le temps de réflechir avec vos explications."]
              },
@@ -156,7 +157,7 @@ data = {"intents": [
               "responses": ["C'est clair Docteur"]
              },
              {"tag": "goodbye",
-              "patterns": [ "bye", "Au revoir", "see ya", "adios", "cya", "Au retour madame", "Je vous tiens au courant."],
+              "patterns": [ "Au revoir", "Au revoir madame"],
               "responses": ["Merci Docteur."]
              }]
 }
@@ -273,9 +274,11 @@ def pred_class(text, vocab, labels):
 
   y_pred.sort(key=lambda x: x[1], reverse=True)
   return_list = []
+  return_list_comp = []
   for r in y_pred:
     return_list.append(labels[r[0]])
-  return return_list
+    return_list_comp.append({"answer": labels[r[0]], "confidence": float(r[1])})
+  return return_list, return_list_comp
 
 def get_response(intents_list, intents_json): 
   tag = intents_list[0]
@@ -298,8 +301,10 @@ if 'generated' not in st.session_state:
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
-def query(user_input):
-    intents = pred_class(user_input.lower(), words, classes)
+def query(user_input, debug):
+    intents, return_list_comp = pred_class(user_input.lower(), words, classes)
+    if debug == "On":
+      st.write(pd.DataFrame(return_list_comp))
     result = get_response(intents, data) 
     return result
 
@@ -307,11 +312,15 @@ def get_text():
     input_text = st.text_input("Vous (interne de gynéco-obstétrique): ", key="input", help="Discutez avec votre patiente. Si problème: contactez kevin.yauy@chu-montpellier.fr")
     return input_text 
 
+if st.button('Debug mode'):
+  debug = "On"
+else:
+  debug = "Off"
 
 user_input = get_text()
 
 if user_input:
-    output = query(user_input)
+    output = query(user_input, debug)
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
 
@@ -319,6 +328,12 @@ if st.session_state['generated']:
     for i in range(len(st.session_state['generated'])-1, -1, -1):
         message(st.session_state["generated"][i], key=str(i), avatar_style="pixel-art")
         message(st.session_state['past'][i], is_user=True, key=str(i) + '_user', avatar_style="pixel-art-neutral")
-
-
-
+    df = pd.DataFrame(list(zip(st.session_state['past'],st.session_state['generated'])))
+    df.columns = ['Vous', 'Votre patient·e']
+    tsv = df.to_csv(sep="\t", index=False)
+    st.download_button(
+        label="Téléchargez votre conversation",
+        data=tsv,
+        file_name='conversation.tsv',
+        mime='text/tsv'
+    )
