@@ -41,7 +41,7 @@ L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie
 Vous devez établir une conduite à tenir.
 Vous devez répondre aux attentes du patient.
 
-
+Contact: [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr)
 
 """
 )
@@ -309,7 +309,7 @@ def query(user_input, debug):
     return result
 
 def get_text():
-    input_text = st.text_input("Vous (interne de gynéco-obstétrique): ", key="input", help="Discutez avec votre patiente. Si problème: contactez kevin.yauy@chu-montpellier.fr")
+    input_text = st.text_input("Vous (interne de gynéco-obstétrique): ", key="input", help="Discutez avec votre patiente avec des phrases complètes. Si problème: contactez kevin.yauy@chu-montpellier.fr")
     return input_text 
 
 if st.button('Debug mode'):
@@ -330,7 +330,7 @@ if st.session_state['generated']:
         message(st.session_state['past'][i], is_user=True, key=str(i) + '_user', avatar_style="pixel-art-neutral")
     df = pd.DataFrame(list(zip(st.session_state['past'],st.session_state['generated'])))
     df.columns = ['Vous', 'Votre patient·e']
-    tsv = df.to_csv(sep="\t", index=False)
+    tsv = df.drop_duplicates().to_csv(sep="\t", index=False)
     st.download_button(
         label="Téléchargez votre conversation",
         data=tsv,
