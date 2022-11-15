@@ -77,7 +77,7 @@ data = {"intents": [
              # "responses": ["Je suis animatrice de temps périscolaire. J'aime mon métier."]
              #},
              {"tag": "interrogation",
-              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG', "je suis perdu", "c'est difficile à dire"],
+              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG', "je suis perdu", "c'est difficile à dire", "les resultats", "bouh"],
               "responses": ["Que voulez vous dire Docteur ?", "C'est à dire Docteur ?", "Je ne comprends pas Docteur ?", "C'est à dire Docteur ?"]
              },
              {"tag": "age",
@@ -277,7 +277,7 @@ def pred_class(text, vocab, labels):
   return_list_comp = []
   for r in y_pred:
     return_list.append(labels[r[0]])
-    return_list_comp.append({"answer": labels[r[0]], "confidence": float(r[1])})
+    return_list_comp.append({"reponse": labels[r[0]], "confiance": float(r[1])})
   return return_list, return_list_comp
 
 def get_response(intents_list, intents_json): 
@@ -305,7 +305,10 @@ def query(user_input, debug):
     intents, return_list_comp = pred_class(user_input.lower(), words, classes)
     if debug == "On":
       st.write(pd.DataFrame(return_list_comp))
-    result = get_response(intents, data) 
+    if return_list_comp[0]["confiance"] < 0.6:
+      result = "Pouvez vous répéter Docteur? je n'ai pas bien saisi."
+    else:
+      result = get_response(intents, data) 
     return result
 
 def get_text():
