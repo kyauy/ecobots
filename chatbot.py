@@ -331,13 +331,16 @@ st.header("Box 4 de consultation, 9h30.")
 model, words, classes, lemmatizer = model_training()
 
 if 'generated' not in st.session_state:
-    st.session_state['generated'] = []
+  st.session_state['generated'] = []
 
 if 'past' not in st.session_state:
-    st.session_state['past'] = []
+  st.session_state['past'] = []
 
 if 'one_time_intent' not in st.session_state:
-    st.session_state.one_time_intent = []
+  st.session_state.one_time_intent = []
+
+if 'timer' not in st.session_state:
+  st.session_state['timer'] = False
 
 my_html = """
 <script>
@@ -368,7 +371,15 @@ window.onload = function () {
 """
 #display.textContent = minutes + ":" + seconds;
 
-html(my_html, height=50)
+placeholder = st.empty()
+btn = placeholder.button("Commencer l\'ECOS", disabled=False)
+
+if btn:
+  placeholder.button("C'est parti", disabled=True)
+  st.session_state['timer'] = True
+    
+if st.session_state['timer'] == True:
+  html(my_html, height=50)
 
 if st.button('Debug mode'):
   debug = "On"
