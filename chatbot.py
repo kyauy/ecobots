@@ -1,4 +1,6 @@
 import streamlit as st
+from streamlit.components.v1 import html
+import time
 import pandas as pd
 from streamlit_chat import message
 from PIL import Image
@@ -54,11 +56,10 @@ image_chu = Image.open("img/CHU-montpellier.png")
 st.sidebar.image(image_chu, caption=None, width=95)
 
 
-
-
 # JSON INPUT
 
 # utilisation d'un dictionnaire pour représenter un fichier JSON d'intentions
+one_time_list = ["pronoT21", "devT21", "confirmT21", "postDPNI", "Amniocentese", "questIMG", "reflexionIMG"]
 data = {"intents": [
              {"tag": "greeting",
               "patterns": ["Hello", "Bonjour", "Bonjour Mme MIKI", 'Bonjour Madame'],
@@ -117,23 +118,23 @@ data = {"intents": [
               "responses": ["Je viens vous consulter pour avoir le résultat des prises de sang..."]
              },
              {"tag": "motifdoc",
-              "patterns": ["On se voit aujourd'hui car j'ai recu des résultats d'examens pour vous.", "J'ai recu des resultats des analyses."],
+              "patterns": ["On se voit aujourd'hui car j'ai recu des résultats d'examens pour vous.", "J'ai recu des resultats des analyses.", "je dois vous rendre les résultat du dépistage de la trisomie 21"],
               "responses": ["Je vous ecoute Docteur."]
              },
              {"tag": "pronoT21",
-              "patterns": ["L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970 qu'il nous faut explorer.", "Les examens ont retrouvé un risque qu'il faut explorer davantage de trisomie 21.", "La dernière fois, nous avions réalisé un depistage de la trisomie 21. Ce depistage est revenu avec un risque modéré. Nous devons faire d'autres analyses pour exclure ce diagnostic." ],
-              "responses": ["C'est grave la trisomie ?", "Vous pouvez m'en dire plus sur la trisomie ?"]
+              "patterns": ["L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970 qu'il nous faut explorer.", "Les examens ont retrouvé un risque qu'il faut explorer davantage de trisomie 21.", "La dernière fois, nous avions réalisé un depistage de la trisomie 21. Ce depistage est revenu avec un risque modéré. Nous devons faire d'autres analyses pour exclure ce diagnostic.", "le résultat de la trisomie 21 n'est pas normal"],
+              "responses": ["Vous pouvez m'en dire plus sur la trisomie ?"]
              },
              {"tag": "confirmT21",
               "patterns": ["La trisomie 21 est une maladie génétique qui associe des signes physiques et une atteinte neuro-neurodéveloppementale pour lequel une prise en charge précoce permet de mieux les accompagner.", "C'est une maladie grave", "L'atteinte peut êre variable mais toujours avec une déficience mentale au moins modérée." , "L'atteinte peut êre variable mais toujours avec un handicap intellectuel.", "La trisomie 21 est une maladie très variable dans l'expression, mais ici il s'agit uniquement d'un risque et nous ne sommes pas sur." ,  "Il peut avoir une déficience intellectuelle au moins modérée, avec un handicap.", "Des malformations, un deficit attentionnel est possible, des infections, un retard de langage, des malformations cardiaques peuvent survenir."],
               "responses": ["Que faire Docteur pour être sur ?"]
              },
              {"tag": "postDPNI",
-              "patterns": ["Nous devons faire une prise de sang, qui va rechercher la trisomie 21.", "Il s'agit d'une prise de sang", "Il s'agit d'une prise de sang", "Nous pouvons vous proposer un depistage non invasif par analyse de l'ADN libre circulant."],
+              "patterns": ["Nous devons faire une prise de sang, qui va rechercher la trisomie 21.", "Il s'agit d'une prise de sang", "Il s'agit d'une prise de sang", "Nous pouvons vous proposer un depistage non invasif par analyse de l'ADN libre circulant.", "nous pouvons vous proposer une nouvelle prise de sang pour être sur"],
               "responses": ["Qu'est ce qui va se passer par la suite ?"]
              },
              {"tag": "Amniocentese",
-              "patterns": ["Si le test est négatif, le suivi de la grossesse est normal. Si le doute persiste, nous devrons faire une amniocentèse pour avoir le diagnostic", "Si le test est positif, nous devrons faire une amniocentese pour determiner le diagnostic."],
+              "patterns": ["Si le test est négatif, le suivi de la grossesse est normal. Si le doute persiste, nous devrons faire une amniocentèse pour avoir le diagnostic", "Si le test est positif, nous devrons faire une amniocentese pour determiner le diagnostic. C'est à dire prélever un peu de liquide amniotique.", "nous devrons faire une amniocentèse pour confirmer le diagnostic de trisomie 21."],
               "responses": ["C'est quoi l'amniocentèse ? C'est dangereux ?"]
              },
              {"tag": "questIMG",
@@ -141,11 +142,11 @@ data = {"intents": [
               "responses": ["Je ne suis pas sur de vouloir un enfant avec une trisomie..."]
              },
             {"tag": "devT21",
-              "patterns": ["Si vous le souhaitez, une interruption médicale de grossesse serait possible, après discusssion avec mes collegues.", "Pensez vous a interompre la grossesse ?", "Si votre enfant devait etre porteur d'une trisomie 21, cela changerait il quelque chose pour vous ? Pour la poursuite de la grossesse ?"],
+              "patterns": ["Si vous le souhaitez, une interruption médicale de grossesse serait possible, après discusssion avec mes collegues.", "Pensez vous a interompre la grossesse ?", "Si votre enfant devait etre porteur d'une trisomie 21, cela changerait il quelque chose pour vous ? Pour la poursuite de la grossesse ?", "si le résultat confirme la trisomie on peut accepter une interruption médicale de grossesse"],
               "responses": ["Si je veux garder mon enfant, que vas t'il se passer ?"]
              },
             {"tag": "reflexionIMG",
-              "patterns": ["Il faut prendre en charge précocement les complications médicales et débuter rapidement les rééducations pour l'accompagner aux mieux afin d'éviter le sur-handicap.", "Nous l'aiderons et rechercher les principales complication et les traiter afin d’éviter en particulier le sur-handicap. Il aura une marge de progression et la majorité des patients ont une certaine autonomie.", "Il sera accompagné et stimulé dans son enfance avec de la kiné, de l'orthophonie, de la psychomotricité, de l'ergothérapie, afin de lui permettre d'avoir la meilleure autonomie possible. Nous surveillerons les complications qui pourraient survenir, il et vous serez accompagné."],
+              "patterns": ["Il faut prendre en charge précocement les complications médicales et débuter rapidement les rééducations pour l'accompagner aux mieux afin d'éviter le sur-handicap.", "Nous l'aiderons et rechercher les principales complication et les traiter afin d’éviter en particulier le sur-handicap. Il aura une marge de progression et la majorité des patients ont une certaine autonomie.", "Il sera accompagné et stimulé dans son enfance avec de la kiné, de l'orthophonie, de la psychomotricité, de l'ergothérapie, afin de lui permettre d'avoir la meilleure autonomie possible. Nous surveillerons les complications qui pourraient survenir, il et vous serez accompagné.", "une rééducation un dépistage des symptômes, une prise en charge personnalisée en fonction de ses besoins"],
               "responses": ["Je vais prendre le temps de réflechir avec vos explications."]
              },
              {"tag": "question",
@@ -161,6 +162,23 @@ data = {"intents": [
               "responses": ["Merci. Au revoir Docteur."]
              }]
 }
+
+# def add_bg_from_url():
+#     st.markdown(
+#          f"""
+#          <style>
+#          .stApp {{
+#              background-image: url("https://media.wbur.org/wp/2020/06/doctor-office-1000x667.jpg");
+#              background-attachment: fixed;
+#              background-size: cover
+#          }}
+#          </style>
+#          """,
+#          unsafe_allow_html=True
+#      )
+# 
+# add_bg_from_url() 
+
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def model_training():
     # TRAIN THE MODEL
@@ -289,11 +307,28 @@ def get_response(intents_list, intents_json):
       break
   return result
 
-model, words, classes, lemmatizer = model_training()
+def query(user_input, debug):
+    intents, return_list_comp = pred_class(user_input.lower(), words, classes)
+    if debug == "On":
+      st.write(pd.DataFrame(return_list_comp))
+    if return_list_comp[0]["confidence"] < 0.6:
+      result = "Pouvez vous répéter Docteur? je n'ai pas bien saisi."
+    elif return_list_comp[0]['response'] in st.session_state['one_time_intent']:
+      result = "Je ne sais pas quoi dire Docteur."
+    else:
+      result = get_response(intents, data)
+      if return_list_comp[0]['response'] in one_time_list: 
+        st.session_state.one_time_intent.append(return_list_comp[0]['response'])
+    return result
+
+def get_text():
+    input_text = st.text_input("Vous (interne de gynéco-obstétrique): ", key="input", help="Discutez avec votre patiente avec des phrases complètes. Si problème: contactez kevin.yauy@chu-montpellier.fr")
+    return input_text 
 
 st.header("Box 4 de consultation, 9h30.")
 #st.markdown("[Github](https://github.com/ai-yash/st-chat)"
 
+model, words, classes, lemmatizer = model_training()
 
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -301,24 +336,45 @@ if 'generated' not in st.session_state:
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
-def query(user_input, debug):
-    intents, return_list_comp = pred_class(user_input.lower(), words, classes)
-    if debug == "On":
-      st.write(pd.DataFrame(return_list_comp))
-    if return_list_comp[0]["confidence"] < 0.6:
-      result = "Pouvez vous répéter Docteur? je n'ai pas bien saisi."
-    else:
-      result = get_response(intents, data) 
-    return result
+if 'one_time_intent' not in st.session_state:
+    st.session_state.one_time_intent = []
 
-def get_text():
-    input_text = st.text_input("Vous (interne de gynéco-obstétrique): ", key="input", help="Discutez avec votre patiente avec des phrases complètes. Si problème: contactez kevin.yauy@chu-montpellier.fr")
-    return input_text 
+my_html = """
+<script>
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var sevenMinutes = 60 * 7,
+        display = document.querySelector('#time');
+    startTimer(sevenMinutes, display);
+};
+</script>
+<div style="font-family:sans serif" color="#262730" align="right">Votre consultation doit se terminer dans <span id="time">07</span> minutes.</div>
+"""
+#display.textContent = minutes + ":" + seconds;
+
+html(my_html, height=50)
 
 if st.button('Debug mode'):
   debug = "On"
 else:
   debug = "Off"
+
 
 user_input = get_text()
 
