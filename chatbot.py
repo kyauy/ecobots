@@ -342,6 +342,9 @@ if 'one_time_intent' not in st.session_state:
 if 'timer' not in st.session_state:
   st.session_state['timer'] = False
 
+if 'disabled' not in st.session_state:
+  st.session_state['disabled'] = False
+
 my_html = """
 <script>
 function startTimer(duration, display) {
@@ -372,11 +375,14 @@ window.onload = function () {
 #display.textContent = minutes + ":" + seconds;
 
 placeholder = st.empty()
-btn = placeholder.button("Commencer l\'ECOS", disabled=False)
+btn = placeholder.button("Commencer l\'ECOS", disabled=st.session_state.disabled, key="ECOS_go")
 
 if btn:
-  placeholder.button("C'est parti", disabled=True)
+  st.session_state['disabled'] = True
   st.session_state['timer'] = True
+  placeholder.button("Commencer l\'ECOS", disabled=st.session_state.disabled, key="ECOS_running")
+  
+  
     
 if st.session_state['timer'] == True:
   html(my_html, height=50)
