@@ -78,7 +78,7 @@ data = {"intents": [
              # "responses": ["Je suis animatrice de temps périscolaire. J'aime mon métier."]
              #},
              {"tag": "interrogation",
-              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG', "je suis perdu", "c'est difficile à dire", "les resultats", "bouh", "vous avez raison."],
+              "patterns": ["Pourquoi?", "", "c'est un test", "c'est un test ?", 'comment vous dire?', 'IMG', "je suis perdu", "c'est difficile à dire", "les resultats", "bouh", "vous avez raison.", "je comprends que vous soyez stressée par vos résultats", "on se voit aujourd'hui"],
               "responses": ["Que voulez vous dire Docteur ?", "C'est à dire Docteur ?", "Je ne comprends pas Docteur ?", "C'est à dire Docteur ?"]
              },
              {"tag": "age",
@@ -103,7 +103,7 @@ data = {"intents": [
              },
              {"tag": "stress",
               "patterns": ["Comment allez vous?", "Comment ca va?", "Comment allez-vous?", "ca va ?"],
-              "responses": ["Je suis assez stressée par le rendez vous", "Un peu stressée"]
+              "responses": ["Je suis assez stressée par le rendez vous", "Un peu stressée par le rendez vous"]
              },
              {"tag": "stress2",
               "patterns": ["Pourquoi êtes vous stressée ?", "Qu'est ce qui vous stresse ?"],
