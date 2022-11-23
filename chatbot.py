@@ -62,7 +62,7 @@ st.sidebar.image(image_chu, caption=None, width=95)
 one_time_list = ["pronoT21", "devT21", "confirmT21", "postDPNI", "Amniocentese", "questIMG", "reflexionIMG"]
 data = {"intents": [
              {"tag": "greeting",
-              "patterns": ["Hello", "Bonjour", "Bonjour Mme MIKI", 'Bonjour Madame'],
+              "patterns": ["Hello", "Bonjour", "Bonjour Mme MIKI", 'Bonjour Madame', "Bonjour, je suis interne en Gynécologie", "Bonjour, je suis interne de gynéco-obstétrique", "Bonjour, je m'appelle , je suis interne de gynéco"],
               "responses": ["Bonjour Docteur"],
              },
              {"tag": "taille",
@@ -102,7 +102,7 @@ data = {"intents": [
               "responses": ["Oui Docteur, à peu près 5 cigarettes par jour."]
              },
              {"tag": "stress",
-              "patterns": ["Comment allez vous?", "Comment ca va?", "Comment allez-vous?", "ca va ?"],
+              "patterns": ["Bonjour, comment allez vous ?","Bonjour madame, comment allez vous ?", "Comment allez vous?", "Comment ca va?", "Comment allez-vous?", "ca va ?"],
               "responses": ["Je suis assez stressée par le rendez vous", "Un peu stressée par le rendez vous"]
              },
              {"tag": "stress2",
@@ -118,15 +118,15 @@ data = {"intents": [
               "responses": ["Je viens vous consulter pour avoir le résultat des prises de sang..."]
              },
              {"tag": "motifdoc",
-              "patterns": ["On se voit aujourd'hui car j'ai recu des résultats d'examens pour vous.", "J'ai recu des resultats des analyses.", "je dois vous rendre les résultat du dépistage de la trisomie 21"],
+              "patterns": ["On se voit aujourd'hui car j'ai recu des résultats d'examens pour vous.", "J'ai recu des resultats des analyses.", "je dois vous rendre les résultat du dépistage de la trisomie 21", "on se voit aujourd'hui pour parler du dépistage de la trisomie 21 que vous avez réalisé"],
               "responses": ["Je vous ecoute Docteur."]
              },
              {"tag": "pronoT21",
-              "patterns": ["L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970 qu'il nous faut explorer.", "Les examens ont retrouvé un risque qu'il faut explorer davantage de trisomie 21.", "La dernière fois, nous avions réalisé un depistage de la trisomie 21. Ce depistage est revenu avec un risque modéré. Nous devons faire d'autres analyses pour exclure ce diagnostic.", "le résultat de la trisomie 21 n'est pas normal"],
+              "patterns": ["L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970 qu'il nous faut explorer.", "Les examens ont retrouvé un risque qu'il faut explorer davantage de trisomie 21.", "La dernière fois, nous avions réalisé un depistage de la trisomie 21. Ce depistage est revenu avec un risque modéré. Nous devons faire d'autres analyses pour exclure ce diagnostic.", "le résultat de la trisomie 21 n'est pas normal", "A partir des examens on a donc obtenu un risque estimé significatif qui nécéssite d'autres examens"],
               "responses": ["Vous pouvez m'en dire plus sur la trisomie ?"]
              },
              {"tag": "confirmT21",
-              "patterns": ["La trisomie 21 est une maladie génétique qui associe des signes physiques et une atteinte neuro-neurodéveloppementale pour lequel une prise en charge précoce permet de mieux les accompagner.", "C'est une maladie grave", "L'atteinte peut êre variable mais toujours avec une déficience mentale au moins modérée." , "L'atteinte peut êre variable mais toujours avec un handicap intellectuel.", "La trisomie 21 est une maladie très variable dans l'expression, mais ici il s'agit uniquement d'un risque et nous ne sommes pas sur." ,  "Il peut avoir une déficience intellectuelle au moins modérée, avec un handicap.", "Des malformations, un deficit attentionnel est possible, des infections, un retard de langage, des malformations cardiaques peuvent survenir."],
+              "patterns": ["La trisomie 21 est une maladie génétique qui associe des signes physiques et une atteinte neuro-neurodéveloppementale pour lequel une prise en charge précoce permet de mieux les accompagner.", "C'est une maladie grave", "L'atteinte peut êre variable mais toujours avec une déficience mentale au moins modérée." , "L'atteinte peut êre variable mais toujours avec un handicap intellectuel.", "La trisomie 21 est une maladie très variable dans l'expression, mais ici il s'agit uniquement d'un risque et nous ne sommes pas sur." ,  "Il peut avoir une déficience intellectuelle au moins modérée, avec un handicap.", "Des malformations, un deficit attentionnel est possible, des infections, un retard de langage, des malformations cardiaques peuvent survenir.", "Il s'agit d'une anomalie du nombre de chormosomes, ici sur la paire 21, qui peut entrainer des malformations et des retentissements sur le long terme."],
               "responses": ["Que faire Docteur pour être sur ?"]
              },
              {"tag": "postDPNI",
@@ -134,20 +134,24 @@ data = {"intents": [
               "responses": ["Qu'est ce qui va se passer par la suite ?"]
              },
              {"tag": "Amniocentese",
-              "patterns": ["Si le test est négatif, le suivi de la grossesse est normal. Si le doute persiste, nous devrons faire une amniocentèse pour avoir le diagnostic", "Si le test est positif, nous devrons faire une amniocentese pour determiner le diagnostic. C'est à dire prélever un peu de liquide amniotique.", "nous devrons faire une amniocentèse pour confirmer le diagnostic de trisomie 21."],
+              "patterns": ["Si le test est négatif, le suivi de la grossesse est normal. Si le doute persiste, nous devrons faire une amniocentèse pour avoir le diagnostic", "Si le test est positif, nous devrons faire une amniocentese pour determiner le diagnostic. C'est à dire prélever un peu de liquide amniotique.", "nous devrons faire une amniocentèse pour confirmer le diagnostic de trisomie 21.", "On va devoir confirmer cette suspicion, notamment graçe à une amniocentèse"],
               "responses": ["C'est quoi l'amniocentèse ? C'est dangereux ?"]
              },
              {"tag": "questIMG",
-              "patterns": ["C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique. Le risque de fausse couche est de 1/100.", "Le risque de fausse couche est de 1/100.", "C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique de la trisomie 21." ],
+              "patterns": ["C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique. Le risque de fausse couche est de 1/100.", "Le risque de fausse couche est de 1/100.", "C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique de la trisomie 21.", "Cela consiste à prélever du liquide amniotique pour pouvoir confirmer le diagnostic", "Il s'agit de prélever du liquide amniotique, il y a 1% de risque de perte foetale", "Il s'agit de prélever du liquide amniotique. Il y a 1% de risque de perte votre enfant.", "il s'agit d'un prelevement de liquide amniotique, il existe certains effets secondaire mais qui sont largement en dessous du bénéfice que nous procure cet examen."],
               "responses": ["Je ne suis pas sur de vouloir un enfant avec une trisomie..."]
              },
             {"tag": "devT21",
-              "patterns": ["Si vous le souhaitez, une interruption médicale de grossesse serait possible, après discusssion avec mes collegues.", "Pensez vous a interompre la grossesse ?", "Si votre enfant devait etre porteur d'une trisomie 21, cela changerait il quelque chose pour vous ? Pour la poursuite de la grossesse ?", "si le résultat confirme la trisomie on peut accepter une interruption médicale de grossesse"],
+              "patterns": ["Si vous le souhaitez, une interruption médicale de grossesse serait possible, après discusssion avec mes collegues.", "Pensez vous a interompre la grossesse ?", "Si votre enfant devait etre porteur d'une trisomie 21, cela changerait il quelque chose pour vous ? Pour la poursuite de la grossesse ?", "si le résultat confirme la trisomie on peut accepter une interruption médicale de grossesse", "Si le diagnostic est positif, vous pouvez demander une interruption médical de grossesse"],
               "responses": ["Si je veux garder mon enfant, que vas t'il se passer ?"]
              },
             {"tag": "reflexionIMG",
-              "patterns": ["Il faut prendre en charge précocement les complications médicales et débuter rapidement les rééducations pour l'accompagner aux mieux afin d'éviter le sur-handicap.", "Nous l'aiderons et rechercher les principales complication et les traiter afin d’éviter en particulier le sur-handicap. Il aura une marge de progression et la majorité des patients ont une certaine autonomie.", "Il sera accompagné et stimulé dans son enfance avec de la kiné, de l'orthophonie, de la psychomotricité, de l'ergothérapie, afin de lui permettre d'avoir la meilleure autonomie possible. Nous surveillerons les complications qui pourraient survenir, il et vous serez accompagné.", "une rééducation un dépistage des symptômes, une prise en charge personnalisée en fonction de ses besoins"],
+              "patterns": ["Il faut prendre en charge précocement les complications médicales et débuter rapidement les rééducations pour l'accompagner aux mieux afin d'éviter le sur-handicap.", "Nous l'aiderons et rechercher les principales complication et les traiter afin d’éviter en particulier le sur-handicap. Il aura une marge de progression et la majorité des patients ont une certaine autonomie.", "Il sera accompagné et stimulé dans son enfance avec de la kiné, de l'orthophonie, de la psychomotricité, de l'ergothérapie, afin de lui permettre d'avoir la meilleure autonomie possible. Nous surveillerons les complications qui pourraient survenir, il et vous serez accompagné.", "une rééducation un dépistage des symptômes, une prise en charge personnalisée en fonction de ses besoins", "Un suivie rapproché sera nécessaire, notamment le long de la grossesse est a posteriori afin de deceler des complications en rapport avec cette pathologie."],
               "responses": ["Je vais prendre le temps de réflechir avec vos explications."]
+             },
+             {"tag": "thanks",
+              "patterns": [ "Vous pouvez toujours me joindre par mail, je vous tiendrai au courant des resultats de l'amniocentèse lors d'une prochaine consultation, afin de discuter de la suite de la prise en charge.", "Vous pouvez toujours me joindre par mail, je vous tiendrai au courant des resultats de la prise de sang lors d'une prochaine consultation, afin de discuter de la suite de la prise en charge.", "Je reste joignable par téléphone ou par mail si vous avez des questions."],
+              "responses": ["Merci Docteur."]
              },
              {"tag": "question",
               "patterns": [ "Avez vous encore des questions ?", "Avez vous des interrogations ?"],
@@ -162,6 +166,9 @@ data = {"intents": [
               "responses": ["Merci. Au revoir Docteur."]
              }]
 }
+
+
+
 
 # def add_bg_from_url():
 #     st.markdown(
@@ -365,12 +372,12 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    var sevenMinutes = 60 * 7,
+    var sevenMinutes = 60 * 10,
         display = document.querySelector('#time');
     startTimer(sevenMinutes, display);
 };
 </script>
-<div style="font-family:sans serif" color="#262730" align="right">Votre consultation doit se terminer dans <span id="time">07</span> minutes.</div>
+<div style="font-family:sans serif" color="#262730" align="right">Votre consultation doit se terminer dans <span id="time">10</span> minutes.</div>
 """
 #display.textContent = minutes + ":" + seconds;
 
