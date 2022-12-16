@@ -315,6 +315,15 @@ data = {
             "responses": ["Entendu Docteur."],
         },
         {
+            "tag": "auscultation",
+            "patterns": [
+                "Puis je vous ausculter votre coeur?",
+                "Puis je vous ausculter?",
+                "Pouvez vous enlever votre haut pour que je puisse vous ausculter?",
+            ],
+            "responses": ["Bien sur, auscultez moi Docteur."],
+        },
+        {
             "tag": "cartevitale",
             "patterns": [
                 "Avez-vous la carte vitale ?",
@@ -636,6 +645,7 @@ else:
 user_input = get_text()
 
 image_dict = {"La voici Docteur.": "img/carte_vitale.jpg"}
+sound_dict = {"Bien sur, auscultez moi Docteur.": "mp3/normal_heart.mp3"}
 
 if user_input:
     output = query(user_input, debug)
@@ -648,6 +658,12 @@ if st.session_state["generated"]:
         if st.session_state["generated"][i] in image_dict.keys():
             st.image(
                 image_dict[st.session_state["generated"][i]], caption=None, width=190
+            )
+        if st.session_state["generated"][i] in sound_dict.keys():
+            st.audio(
+                sound_dict[st.session_state["generated"][i]],
+                format="audio/mp3",
+                start_time=0,
             )
         message(
             st.session_state["past"][i],
