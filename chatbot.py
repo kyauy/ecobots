@@ -330,6 +330,7 @@ data = {
                 "pouvez vous me donner votre carte vitale ?",
                 "J'aurai besoin de votre carte vitale, s'il vous plait ?",
                 "J'aurai besoin de votre carte vitale.",
+                "avez vous votre carte vitale ?",
             ],
             "responses": ["La voici Docteur."],
         },
