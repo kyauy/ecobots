@@ -327,6 +327,9 @@ data = {
             "tag": "cartevitale",
             "patterns": [
                 "Avez-vous la carte vitale ?",
+                "pouvez vous me donner votre carte vitale ?",
+                "J'aurai besoin de votre carte vitale, s'il vous plait ?",
+                "J'aurai besoin de votre carte vitale.",
             ],
             "responses": ["La voici Docteur."],
         },
