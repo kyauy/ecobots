@@ -635,6 +635,8 @@ else:
 
 user_input = get_text()
 
+image_dict = {"La voici Docteur.": "img/carte_vitale.jpg"}
+
 if user_input:
     output = query(user_input, debug)
     st.session_state.past.append(user_input)
@@ -643,6 +645,10 @@ if user_input:
 if st.session_state["generated"]:
     for i in range(len(st.session_state["generated"]) - 1, -1, -1):
         message(st.session_state["generated"][i], key=str(i), avatar_style="pixel-art")
+        if st.session_state["generated"][i] in image_dict.keys():
+            st.image(
+                image_dict[st.session_state["generated"][i]], caption=None, width=190
+            )
         message(
             st.session_state["past"][i],
             is_user=True,
