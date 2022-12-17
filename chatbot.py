@@ -352,6 +352,8 @@ data = {
                 "Vous pouvez toujours me joindre par mail, je vous tiendrai au courant des resultats de l'amniocentèse lors d'une prochaine consultation, afin de discuter de la suite de la prise en charge.",
                 "Vous pouvez toujours me joindre par mail, je vous tiendrai au courant des resultats de la prise de sang lors d'une prochaine consultation, afin de discuter de la suite de la prise en charge.",
                 "Je reste joignable par téléphone ou par mail si vous avez des questions.",
+                "n'hesitez pas à m'écrire si vous avez des questions.",
+                "n'hesitez pas à me joindre via le secrétariat ou par mail si vous avez des questions.",
             ],
             "responses": ["Merci Docteur."],
         },
