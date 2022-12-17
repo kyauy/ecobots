@@ -311,7 +311,8 @@ data = {
         {
             "tag": "agree",
             "patterns": [
-                "Vous avez jusqu'à la fin de la grossesse pour y réfléchir",
+                "Vous avez jusqu'à la fin de la grossesse pour y réfléchir.",
+                "Vous êtes libre de prendre le temps que vous avez besoin.",
             ],
             "responses": ["Entendu Docteur."],
         },
@@ -321,6 +322,7 @@ data = {
                 "Puis je vous ausculter votre coeur?",
                 "Puis je vous ausculter?",
                 "Pouvez vous enlever votre haut pour que je puisse vous ausculter?",
+                "Je vais vous ausculter si vous voulez bien.",
             ],
             "responses": ["Bien sur, auscultez moi Docteur."],
         },
@@ -371,6 +373,16 @@ data = {
                 "Voulez vous qu'on reprenne quelque chose ?",
             ],
             "responses": ["C'est clair Docteur."],
+        },
+        {
+            "tag": "yourewelcome",
+            "patterns": [
+                "Je vous remercie",
+                "Merci madame",
+                "Merci bien.",
+                "Merci",
+            ],
+            "responses": ["De rien Docteur."],
         },
         {
             "tag": "goodbye",
@@ -547,10 +559,10 @@ def query(user_input, debug):
     intents, return_list_comp = pred_class(user_input.lower(), words, classes)
     if debug == "On":
         st.write(pd.DataFrame(return_list_comp))
-    if return_list_comp[0]["confidence"] < 0.6:
+    if return_list_comp[0]["confidence"] < 0.5:
         result = "Pouvez vous répéter Docteur? je n'ai pas bien saisi."
     elif return_list_comp[0]["response"] in st.session_state["one_time_intent"]:
-        result = "Je ne sais pas quoi dire Docteur."
+        result = "Je ne sais pas quoi dire Docteur, nous en avons déjà parlé."
     else:
         result = get_response(intents, data)
         if return_list_comp[0]["response"] in one_time_list:
