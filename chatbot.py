@@ -311,6 +311,7 @@ data = {
         {
             "tag": "agree",
             "patterns": [
+                "vous me dites ce que vous souhaitez faire, je reste à votre disposition."
                 "Vous avez jusqu'à la fin de la grossesse pour y réfléchir.",
                 "Vous êtes libre de prendre le temps que vous avez besoin.",
             ],
@@ -396,6 +397,7 @@ data = {
                 "Ciao",
                 "Bye bye",
                 "A bientôt",
+                "A bientôt, j'attends votre appel.",
             ],
             "responses": ["Merci. Au revoir Docteur."],
         },
