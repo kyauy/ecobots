@@ -108,7 +108,7 @@ data = {
                 "les resultats",
                 "bouh",
                 "vous avez raison.",
-                "je comprends que vous soyez stressée par vos résultats",
+                #"je comprends que vous soyez stressée par vos résultats",
                 "on se voit aujourd'hui",
                 "Que vous a donc fait Mme MIKI ?",
                 "avez vous",
@@ -165,6 +165,8 @@ data = {
             "patterns": [
                 "Pourquoi êtes vous stressée ?",
                 "Qu'est ce qui vous stresse ?",
+                "pourquoi etes vous stressée ?",
+                "vous etes stressée donc ?",
             ],
             "responses": [
                 "J'ai peur des résultats que vous allez m'annoncer",
