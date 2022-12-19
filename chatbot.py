@@ -95,6 +95,18 @@ data = {
         # "responses": ["Je suis animatrice de temps périscolaire. J'aime mon métier."]
         # },
         {
+            "tag": "wtf",
+            "patterns": [
+                "salope",
+                "t'es chelou",
+                "enculé",
+                "batard",
+            ],
+            "responses": [
+                "Surveillez votre langage Docteur.",
+            ],
+        },
+        {
             "tag": "interrogation",
             "patterns": [
                 "Pourquoi?",
