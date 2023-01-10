@@ -14,15 +14,17 @@ import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 
-nltk.download("omw-1.4", quiet=True)
-nltk.download("punkt", quiet=True)
-nltk.download("wordnet", quiet=True)
 
 st.set_page_config(
     page_title="ECOS - Chatbot test",
     page_icon=":robot:",
     initial_sidebar_state="expanded",
-),
+)
+
+nltk.download("omw-1.4", quiet=True)
+nltk.download("punkt", quiet=True)
+nltk.download("wordnet", quiet=True)
+
 
 image_pg = Image.open("img/ecobots.png")
 st.sidebar.image(image_pg, caption=None, width=100)
@@ -595,6 +597,7 @@ def query(user_input, debug):
 def submit():
     st.session_state.answer = st.session_state.input
     st.session_state.input = ""
+    return ""
 
 
 def get_text():
