@@ -18,7 +18,11 @@ nltk.download("omw-1.4", quiet=True)
 nltk.download("punkt", quiet=True)
 nltk.download("wordnet", quiet=True)
 
-st.set_page_config(page_title="ECOS - Chatbot test", page_icon=":robot:")
+st.set_page_config(
+    page_title="ECOS - Chatbot test",
+    page_icon=":robot:",
+    initial_sidebar_state="expanded",
+),
 
 image_pg = Image.open("img/ecobots.png")
 st.sidebar.image(image_pg, caption=None, width=100)
@@ -120,7 +124,7 @@ data = {
                 "les resultats",
                 "bouh",
                 "vous avez raison.",
-                #"je comprends que vous soyez stressée par vos résultats",
+                # "je comprends que vous soyez stressée par vos résultats",
                 "on se voit aujourd'hui",
                 "Que vous a donc fait Mme MIKI ?",
                 "avez vous",
