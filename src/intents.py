@@ -136,12 +136,24 @@ INTENTS = [
         "patterns": [
             "Qu'est ce qui vous amene?",
             "Savez vous pourquoi on se voit aujourd'hui ?",
+            "pourquoi etes vous la aujourd'hui ?",
             "Vous vous souvenez pourquoi nous avons rendez-vous aujourd'hui?",
             "Quel est votre problème ?",
             "Vous venez pour vos résultats ?",
         ],
         "responses": [
             "Je viens vous consulter pour avoir le résultat des prises de sang..."
+        ],
+    },
+    {
+        "tag": "internet",
+        "patterns": [
+            "est ce que vous avez déjà des notions sur cette maladie?",
+            "est ce que vous avez deja regardé sur internet ?",
+            "vous êtes vous renseigné sur cette maladie ?",
+        ],
+        "responses": [
+            "J'ai commencé à regarder sur internet, mais j'ai arrêté car j'ai pris peur..."
         ],
     },
     {
@@ -180,8 +192,10 @@ INTENTS = [
             "Connaissez-vous le DPNI ?",
             "Connaissez-vous le dépistage non invastif de la trisomie 21 ?",
             "Connaissez-vous la trisomie 21 ?",
+            "Connaissez-vous la maladie de Parkinson ?",
+            "Que connaissez-vous de la maladie de Parkinson ?",
         ],
-        "responses": ["Pas vraiment Docteur."],
+        "responses": ["Pas grand chose Docteur."],
     },
     {
         "tag": "thanks",
