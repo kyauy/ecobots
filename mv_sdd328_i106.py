@@ -98,119 +98,44 @@ def get_text():
 
 ## utilisation d'un dictionnaire pour représenter un fichier JSON d'intentions
 
-patient_descriptions = {
-    "name": ["M. Denis"],
-    "taille": ["Je fais 1m75"],
-    "poids": ["Je fais 70kg"],
-    "job": ["Je suis artiste peintre. J'aime mon métier."],
-    "motif": [
-        "Je viens vous consulter parce que j'ai peur d'avoir la maladie de Parkinson..."
-    ],
-    "stress": [
-        "J'ai peur d'avoir la maladie de Parkinson...",
-    ],
-    "age": ["J'ai 55 ans"],
-    "antecedant": ["J'ai de l'hypertension. Je prends du CAPTOPRIL le matin."],
-    "antecedantfam": ["Pas à ma connaissance", "Je ne crois pas"],
-    "howareyou": [
-        "Ca va Docteur.",
-        "Un peu stressée mais ca va.",
-    ],
-    "tabac": ["Non Docteur."],
-}
+patient_descriptions = {'name': ['M. Denis'],
+ 'taille': ['Je fais 1m75'],
+ 'poids': ['Je fais 70kg'],
+ 'job': ["Je suis artiste peintre. J'aime mon métier."],
+ 'motif': ["Je viens vous consulter parce que j'ai peur d'avoir la maladie de Parkinson..."],
+ 'stress': ["J'ai peur d'avoir la maladie de Parkinson.."],
+ 'age': ["J'ai 55 ans"],
+ 'antecedant': ["J'ai de l'hypertension. Je prends de l'AMLOR le matin."],
+ 'antecedantfam': ['Pas à ma connaissance', 'Je ne crois pas'],
+ 'howareyou': ['Ca va Docteur.', 'Un peu stressée mais ca va.'],
+ 'tabac': ['Non Docteur.']}
 
-sdd = [
-    {
-        "tag": "annonce",
-        "patterns": [
-            "Vous avez bien fait, nous allons prendre le temps de vous expliquer la maladie de Parkinson."
-            "En effet, vous avez des symptomes pouvant faire penser à une maladie de Parkinson",
-            "A l'examen, je retrouve des elements pouvant en effet indiquer que vous êtes atteint de la maladie de Parkison.",
-        ],
-        "responses": [
-            "Je vous ecoute Docteur.",
-            "Dites moi en plus Docteur s'il vous plait.",
-        ],
-    },
-    {
-        "tag": "explorationParkinson",
-        "patterns": [
-            "Vous présentez des tremblements, une lenteur aux mouvements et une rigidité qui peut faire penser à une maladie de Parkinson",
-            "A l'examen, je retrouve des elements cliniques, comme des tremblements et une rigidité de vos mouvements. ",
-        ],
-        "responses": ["Mais vous êtes sur ? Y'a pas besoin d'examen complémentaires ?"],
-    },
-    {
-        "tag": "confirmationParkinson",
-        "patterns": [
-            "La trisomie 21 est une maladie génétique qui associe des signes physiques et une atteinte neuro-neurodéveloppementale pour lequel une prise en charge précoce permet de mieux les accompagner.",
-            "C'est une maladie grave",
-        ],
-        "responses": ["Est-ce que c'est grave ?"],
-    },
-    {
-        "tag": "pronosticParkinson",
-        "patterns": [
-            "Nous devons faire une prise de sang, qui va rechercher la trisomie 21.",
-            "Il s'agit d'une prise de sang",
-            "Une prise de sang pour dépister la trisomie 21.",
-            "Nous pouvons vous proposer une prise de sang",
-            "Nous pouvons vous proposer un depistage non invasif par analyse de l'ADN libre circulant.",
-            "nous pouvons vous proposer une nouvelle prise de sang pour être sur",
-            "Il faudra réaliser une autre prise de sang pour DPNI, dépistage prénatal non invasif",
-            "Il faut d'abord réaliser la prise de sang pour le DPNI",
-        ],
-        "responses": ["Est-ce que je peux vivre normalement ?"],
-    },
-    {
-        "tag": "traitementParkinson",
-        "patterns": [
-            "Si le test est négatif, le suivi de la grossesse est normal. Si le doute persiste, nous devrons faire une amniocentèse pour avoir le diagnostic",
-            "Si le test est positif, nous devrons faire une amniocentese pour determiner le diagnostic. C'est à dire prélever un peu de liquide amniotique.",
-            "nous devrons faire une amniocentèse pour confirmer le diagnostic de trisomie 21.",
-            "On va devoir confirmer cette suspicion, notamment graçe à une amniocentèse",
-            "Il faut réaliser une amniocentèse. Savez-vous ce que c'est ?",
-            "Si le DPNI est négatif, le risque de trisomie 21 sera très faible. S'il est positif, vous pourrez choisir de réaliser une biopsie de trophoblaste ou une amniocentèse pour confirmer la suspicion de trisomie 21 par la réalisation du caryotype foetal.",
-            "Une prise de sang pour exclure la trisomie 21. si c'est positif il faudra faire une amniocentese.",
-        ],
-        "responses": ["Qu'est ce que vous me proposer ?"],
-    },
-    {
-        "tag": "interactionParkinson",
-        "patterns": [
-            "C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique. Le risque de fausse couche est de 1/100.",
-            "Le risque de fausse couche est de 1/100.",
-            "C'est un examen fait en routine qui va recupérer du liquide amniotique pour faire une recherche génétique de la trisomie 21.",
-            "Cela consiste à prélever du liquide amniotique pour pouvoir confirmer le diagnostic",
-            "Il s'agit de prélever du liquide amniotique, il y a 1% de risque de perte foetale",
-            "Il s'agit de prélever du liquide amniotique. Il y a 1% de risque de perte votre enfant.",
-            "il s'agit d'un prelevement de liquide amniotique, il existe certains effets secondaire mais qui sont largement en dessous du bénéfice que nous procure cet examen.",
-            "C'est la réalisation d'une ponction de liquide amniotique dans l'utérus. Ce n'est pas dangereux pour vous mais il y a un risque de fausse-couche.",
-            "L'amniocentèse est un prélèvement du liquide amniotique, dans la poche qui entoure le foetus. Ce geste se réalise avec une aiguille par le ventre ou par voie vaginale. Il y a un risque de fausse couche induite inférieur à 1%.",
-            "Que feriez-vous si votre enfant est atteint de trisomie 21?",
-        ],
-        "responses": [
-            "Je prend un traitement pour la tension, est-ce qu'il y a un risque ?	"
-        ],
-    },
-    {
-        "tag": "reflexionParkinson",
-        "patterns": [
-            "Il faut prendre en charge précocement les complications médicales et débuter rapidement les rééducations pour l'accompagner aux mieux afin d'éviter le sur-handicap.",
-            "Nous l'aiderons et rechercher les principales complication et les traiter afin d’éviter en particulier le sur-handicap. Il aura une marge de progression et la majorité des patients ont une certaine autonomie.",
-            "Il sera accompagné et stimulé dans son enfance avec de la kiné, de l'orthophonie, de la psychomotricité, de l'ergothérapie, afin de lui permettre d'avoir la meilleure autonomie possible. Nous surveillerons les complications qui pourraient survenir, il et vous serez accompagné.",
-            "une rééducation un dépistage des symptômes, une prise en charge personnalisée en fonction de ses besoins",
-            "Un suivie rapproché sera nécessaire, notamment le long de la grossesse est a posteriori afin de deceler des complications en rapport avec cette pathologie.",
-            "Un accompagnement vous sera proposer afin d'accueillir du mieux possible votre enfant.",
-            "Si vous souhaitez le garder, et qu'il est atteint de trisomie 21, il y aura à la naissance une hypotonie, puis un retard des acquisitions qui évoluera vers une déficience intellectuelle , dont le degré est très variable selon les individus. Il s'agit d'une maladie qui touche plusieurs organes, avec un risque de cardiopathie congénitale, de troubles visuels, de troubles auditifs, de malformations viscérales, d'épilepsie... ",
-            "Vous avez tout à fait le droit de garder votre enfant, si c'est le cas il sera suivi par des spécialistes après la naissance.",
-            "Il aura une prise en charge multidisciplinaire avec un suivi régulier pour que tout se passe au mieux.",
-        ],
-        "responses": [
-            "Je vais prendre le temps de réflechir avec vos explications avant de faire le test."
-        ],
-    },
-]
+sdd = [{'tag': 'annonce',
+  'patterns': ['Vous avez bien fait, nous allons prendre le temps de vous expliquer la maladie de Parkinson.',
+   'En effet, vous avez des symptomes pouvant faire penser à une maladie de Parkinson',
+   "A l'examen, je retrouve des elements pouvant en effet indiquer que vous êtes atteint de la maladie de Parkison."],
+  'responses': ['Je vous ecoute Docteur.',
+   "Dites moi en plus Docteur s'il vous plait."]},
+ {'tag': 'explorationParkinson',
+  'patterns': ["Vous présentez des tremblements, une lenteur aux mouvements et une rigidité qui peut faire penser à une maladie de Parkinson. il s'agit d'une maladie qui est due à un déficit d'une molécule nommé dopamine dans le cerveau.",
+   "A l'examen, je retrouve des elements cliniques, comme des tremblements et une rigidité de vos mouvements. Il s'agit d'une maladie qui est due à un déficit d'une molécule nommé dopamine dans le cerveau."],
+  'responses': ["Mais vous êtes sur ? Y'a pas besoin d'examen complémentaires ?"]},
+ {'tag': 'confirmationParkinson',
+  'patterns': ["Tout à fait, le diagnostic est uniquement clinique. Il n'y a pas besoin de réaliser d'examen complémentaire. Le diagnostic de certitude est réalisé avec le suivi de l'absence d'autres signes pour un autre syndrome parkinsonien. Nous pourrons vous proposer un taritement dont la réponse nous orientera également sur le diagnostic.",
+   "Tout à fait, le diagnostic est uniquement clinique. Il n'y a pas besoin de réaliser d'examen complémentaire. ",
+   "Il n'y a pas besoin de réaliser d'examen complémentaire. Le diagnostic de certitude est réalisé avec le suivi de l'absence d'autres signes pour un autre syndrome parkinsonien. Nous pourrons vous proposer un taritement dont la réponse nous orientera également sur le diagnostic."],
+  'responses': ["Est-ce que c'est grave ?"]},
+ {'tag': 'pronosticParkinson',
+  'patterns': ["Il s'agit d'une maladie dont l'evolution propre à chaque individu. Si on ne peut pas la guérir, on peut vous proposer des traitements pour essayer de réduire vos symptomes.",
+   "Il s'agit d'une maladie dont l'evolution propre à chaque individu. Si on ne peut pas la guérir, on peut vous proposer des traitements pour essayer de réduire vos tremblements et vos lenteurs de mouvements."],
+  'responses': ['Est-ce que je peux vivre normalement ?']},
+ {'tag': 'traitementParkinson',
+  'patterns': ["S'il n'existe pas de traitement pour guerir, il existe des traitements pour éviter vos symptomes, qui essaye de combler le déficit en dopamine qu'on retrouve dans la maladie de Parkinson. Ces traitementst sont des agonistes dopaminergiques comme la Levodopa. Ce traitement peut avoir des effets secondaires.",
+   'Selon la gène causée par vos tremblements ou mouvements, je peux vous proposer des traitements pour soulager vos symptomes. Ces traitements ne permettent pas de guerir mais peuvent aider à calmer vos symptomes. Ils essayent de combler le déficit en dopamine, comme la levodopa qui est un agoniste dopaminergique. Ce traitement peut avoir des effets secondaires.'],
+  'responses': ["Je prend un traitement pour la tension, est-ce qu'il y a un risque ?"]},
+ {'tag': 'interactionParkinson',
+  'patterns': ["En effet, il y a un risque d'hypotension de l'association traitement anti-parkinsonien et Amlor."],
+  'responses': ['Je vais prendre le temps de réflechir avec vos explications Docteur.']}]
 
 # Generation des messages et du modèle d'IA
 
