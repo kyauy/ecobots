@@ -185,7 +185,7 @@ intents_perso = personalize_intents_load(intents, patient_descriptions)
 data = get_data(sdd, intents_perso)
 model, words, classes, lemmatizer = model_training_load(data)
 
-st.header("Box 1 de consultation, 9h")
+st.header("Box 4 des urgences, 22h")
 
 if "answer" not in st.session_state:
     st.session_state.answer = ""
