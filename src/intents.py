@@ -11,6 +11,9 @@ INTENTS = [
             "Bonjour",
             "Bonjour Mme MIKI",
             "Bonjour Madame",
+            "Bonjour Monsieur",
+            "Bonjour M. Ledoux",
+            "Bonjour, je suis interne en neurologie",
             "Bonjour, je suis interne en Gynécologie",
             "Bonjour, je suis interne de gynéco-obstétrique",
             "Bonjour, je m'appelle , je suis interne de gynéco",
@@ -65,6 +68,7 @@ INTENTS = [
         "patterns": [
             "Pourquoi?",
             "",
+            "prise de sang",
             "c'est un test",
             "c'est un test ?",
             "comment vous dire?",
@@ -94,7 +98,12 @@ INTENTS = [
     },
     {
         "tag": "antecedant",
-        "patterns": ["Avez vous des maladies ?", "Avez vous déjà été opéré ?"],
+        "patterns": [
+            "Avez vous des maladies ?",
+            "Avez vous déjà été opéré ?",
+            "Avez vous déjà été malade ?",
+            "Prenez vous des traitements ?",
+        ],
         "responses": ["Je n'ai jamais été malade."],
     },
     {
@@ -140,6 +149,8 @@ INTENTS = [
             "Vous vous souvenez pourquoi nous avons rendez-vous aujourd'hui?",
             "Quel est votre problème ?",
             "Vous venez pour vos résultats ?",
+            "Pourquoi vous n'etes pas bien ?",
+            "Pourquoi vous n'allez pas bien ?",
         ],
         "responses": [
             "Je viens vous consulter pour avoir le résultat des prises de sang..."
@@ -151,6 +162,7 @@ INTENTS = [
             "est ce que vous avez déjà des notions sur cette maladie?",
             "est ce que vous avez deja regardé sur internet ?",
             "vous êtes vous renseigné sur cette maladie ?",
+            "que connaissez vous sur la maladie ? ",
         ],
         "responses": [
             "J'ai commencé à regarder sur internet, mais j'ai arrêté car j'ai pris peur..."
