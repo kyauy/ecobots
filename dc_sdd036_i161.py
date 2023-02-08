@@ -116,19 +116,18 @@ patient_descriptions = {
 
 sdd = [
     {
-        "tag": "annonce",
+        "tag": "prescriptionExplorationIncomplete",
         "patterns": [
-            "Je comprends, d'après vos symptomes, vous avez probablement une pyélonéphrite aigue obstructive. Nous allons faire d'autres examens afin de pouvoir confirmer ou exclure cette hypothèse."
+            "Je vous propose de faire une prise de sang",
+            "Je vous propose de faire une prise de sang et un scanner, ainsi qu'une analyse de vos urines",
         ],
-        "responses": [
-            "Vous pouvez me detailler quels examens vous allez me prescrire docteur ? "
-        ],
+        "responses": ["Qu'est ce que vous allez rechercher sur la prise de sang ? "],
     },
     {
         "tag": "prescriptionExploration",
         "patterns": [
-            "Je vais vous proposer de faire une prise de sang, avec une NFS, une CRP pour recherche une infection, une créatininémie pour evaluer votre fonction rénale. Vous devrez faire un examen urinaire et sanguin pour chercher des bactéries (ECBU et hémocultures). Enfin je vais vous proposer de réaliser un scanner abdominopelvien sans injection pour chercher la cause de vos douleurs et de cette probable pyelonephrite",
-            "Je vais vous proposer une prise de sang afin de recherche si vous avez un syndrome inflammatoire. un ECBU mais aussi un scanner",
+            "Je vais vous proposer de faire une prise de sang, avec une NFS, une CRP pour recherche une infection, une créatininémie pour evaluer votre fonction rénale. Vous devrez faire un examen urinaire et sanguin pour chercher des bactéries (ECBU et hémocultures). Enfin je vais vous proposer de réaliser un scanner abdominopelvien sans injection pour chercher la cause de vos douleurs et de cette probable pyelonephrite.",
+            "je vais vous proposer une prise de sang afin de recherche si vous avez un syndrome inflammatoire. un ECBU mais aussi un scanner",
         ],
         "responses": [
             "Attendez Docteur, on m'a déjà fait faire une prise de sang tout à l'heure. Peut etre que vous aurez déjà des resultats ? *** Voici les resultats que vous retrouvez sur le dossier informatisé du patient ***"
@@ -146,15 +145,30 @@ sdd = [
         "patterns": [
             "Vous allez faire un scanner abdominopelvien afin de voir la cause de vos fievres et vos douleurs.",
             "je vais vous prescrire un scanner abdominopelvien",
+            "on va faire un scanner de l'abdomen",
+            "je vais vous prescrire un scanner et un examen des urines.",
+            "Le bilan sanguin présente une insuffisance rénale légère et syndrome inflammatoire biologique. Il faut que vous passiez un scanner de l'abdomen.  ",
         ],
         "responses": [
             "Mon médecin m'avait demandé de faire un scanner, j'ai eu de la chance j'ai pu avoir un rendez-vous ce matin, voilà le compte rendu."
         ],
     },
     {
+        "tag": "annonce",
+        "patterns": [
+            "Je comprends, d'après vos symptomes, vous avez probablement une pyélonéphrite aigue obstructive. ",
+            "Vous avez une pyélonéphrite aigue obstructive qui explique vos douleurs et qu'il faut qu'on soigne.",
+        ],
+        "responses": [
+            "Pouvez vous me detailler ce qu'il va se passer Docteur maintenant ? Je peux rentrer chez moi ?"
+        ],
+    },
+    {
         "tag": "priseEnCharge",
         "patterns": [
-            "Je vous confirme que vous souffrez d'une pyélonéphrite. Je vais vous hospitaliser et vous mettre rapidement sous antibiothérapie intraveineuse. Je vais contacter le médecin urologue, car il va falloir drainer vos voies urinaires, afin de guerir de votre pyelonéphrite. "
+            "Je vous confirme que vous souffrez d'une pyélonéphrite. Je vais vous hospitaliser et vous mettre rapidement sous antibiothérapie intraveineuse. Je vais contacter le médecin urologue, car il va falloir drainer vos voies urinaires, afin de guerir de votre pyelonéphrite. ",
+            "Vous allez rester à l'hopital ce soir, je vais vous mettre sous antibiotique afin de guerir de votre pyélonéphrite.",
+            "Je vais vous mettre sous antibiothérapie. ",
         ],
         "responses": ["Entendu Docteur, je vous fais confiance."],
     },
@@ -162,6 +176,14 @@ sdd = [
         "tag": "repas",
         "patterns": ["Quel est l'heure de votre dernier repas ?"],
         "responses": ["Hier soir vers 20h Docteur."],
+    },
+    {
+        "tag": "depart",
+        "patterns": [
+            "Vous allez rentrer chez vous avec des antibiotiques.",
+            "oui oui pas de souci, prenez rdv avec l'urologue bientôt, vous allez pouvoir rentrer chez vous",
+        ],
+        "responses": ["Bonne nouvelle, au revoir Docteur, à bientôt."],
     },
 ]
 
