@@ -237,7 +237,7 @@ with tab1:
     st.subheader("Debriefing et corrections")
     st.markdown(
         """
-    Cliquez sur la page "✅ Correction" après avoir fait l'ECOS!
+    Cliquez sur la page "✅ Correction" après avoir fait l'ECOS !
     """
     )
 

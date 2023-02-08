@@ -103,6 +103,8 @@ INTENTS = [
             "Avez vous déjà été opéré ?",
             "Avez vous déjà été malade ?",
             "Prenez vous des traitements ?",
+            "Vous avez déjà été maladie ?",
+            "Vous prenez des traitements tous les jours ?",
         ],
         "responses": ["Je n'ai jamais été malade."],
     },

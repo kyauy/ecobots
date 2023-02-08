@@ -20,7 +20,7 @@ from src.utils import (
 st.set_page_config(
     page_title="ECOS SDD 328 - M. Denis",
     page_icon=":robot:",
-    initial_sidebar_state="expanded",
+    # initial_sidebar_state="expanded",
 )
 
 nltk.download("omw-1.4", quiet=True)
@@ -202,17 +202,17 @@ Il se présente seul à votre consultation.
     """
     )
 
-    st.subheader("Pret ?")
+    st.subheader("Prêt ?")
     st.markdown(
         """
     Cliquez sur la page "🕑 Commencez l'ECOS" !
     """
     )
 
-    st.subheader("Briefing et corrections")
+    st.subheader("Debriefing et corrections")
     st.markdown(
         """
-    Cliquez sur la page "✅ Correction" après avoir fait l'ECOS!
+    Cliquez sur la page "✅ Correction" après avoir fait l'ECOS !
     """
     )
 
@@ -271,10 +271,6 @@ with tab2:
                 avatar_style="pixel-art-neutral",
             )
 with tab3:
-
-    st.markdown(
-        "Téléchargez la conversation et envoyez la à [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr). Je vous enverrai la grille de correction!"
-    )
     if st.session_state["generated"]:
         df = pd.DataFrame(
             list(zip(st.session_state["past"], st.session_state["generated"]))
@@ -282,8 +278,16 @@ with tab3:
         df.columns = ["Vous", "Votre patient·e"]
         tsv = df.drop_duplicates().to_csv(sep="\t", index=False)
         st.download_button(
-            label="Téléchargez votre conversation",
+            label="Cliquez ici pour télécharger votre conversation",
             data=tsv,
-            file_name="conversation_dc_sdd036_i161.tsv",
+            file_name="conversation_mv_sdd328_i106.tsv",
             mime="text/tsv",
         )
+    st.markdown(
+        """
+        **Téléchargez la conversation et envoyez la via ce google form :**
+        > [https://forms.gle/](https://forms.gle/)
+
+        Vous receverez automatiquement le lien de la grille d'évaluation !
+        """
+    )

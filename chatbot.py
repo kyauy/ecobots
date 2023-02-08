@@ -20,7 +20,7 @@ from src.utils import (
 st.set_page_config(
     page_title="ECOS SDD 307 - Mme Miki",
     page_icon=":robot:",
-    initial_sidebar_state="expanded",
+    # initial_sidebar_state="expanded",
 )
 
 nltk.download("omw-1.4", quiet=True)
@@ -32,18 +32,9 @@ st.sidebar.image(image_pg, caption=None, width=100)
 st.sidebar.header("ECOS Chatbot: Patient simulé par l'intelligence artificielle")
 st.sidebar.markdown(
     """
-- *Contexte:*
+**Lisez l'énoncé et lancez vous en disant bonjour à votre patient(e) !**
 
-Vous êtes interne de gynéco-obstétrique.
-Vous voyez en consultation une patiente pour suivi de grossesse.
-
-Lors de la précédente et première consultation, vous avez prescrit les examens recommandés du premier trimestre, incluant un depistage de la trisomie 21 que la patiente a souhaité faire. 
-L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970.
-
-- *Objectifs:*
-
-Vous devez établir une conduite à tenir.
-Vous devez répondre aux attentes du patient.
+ECOS proposé par Kévin Yauy.  
 
 Contact: [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr)
 
@@ -244,84 +235,120 @@ intents = get_intents()
 data = get_data(sdd, intents)
 model, words, classes, lemmatizer = model_training_load(data)
 
-st.header("Box 4 de consultation, 9h30.")
+st.header("Box 1 de consultation, 9h")
 
-if "answer" not in st.session_state:
-    st.session_state.answer = ""
+(
+    tab1,
+    tab2,
+    tab3,
+) = st.tabs(["📝 Fiche Etudiant", "🕑 Commencez l'ECOS", "✅ Correction"])
 
-if "generated" not in st.session_state:
-    st.session_state["generated"] = []
+with tab1:
 
-if "past" not in st.session_state:
-    st.session_state["past"] = []
+    st.subheader("Contexte")
+    st.markdown(
+        """
+Vous êtes interne de gynéco-obstétrique.  
+Vous voyez en consultation une patiente pour suivi de grossesse.  
 
-if "one_time_intent" not in st.session_state:
-    st.session_state.one_time_intent = []
+Lors de la précédente et première consultation, vous avez prescrit les examens recommandés du premier trimestre, incluant un depistage de la trisomie 21 que la patiente a souhaité faire.  
+L'ensemble des examens est revenu normal, excepté un risque estimé de trisomie 21 fœtale est de 1/970.
+    """
+    )
+    st.subheader("Objectifs")
+    st.markdown(
+        """
+- Vous devez établir une conduite à tenir.
+- Vous devez répondre aux attentes du patient.
+    """
+    )
 
-if "timer" not in st.session_state:
-    st.session_state["timer"] = False
+    st.subheader("Prêt ?")
+    st.markdown(
+        """
+    Cliquez sur la page "🕑 Commencez l'ECOS" !
+    """
+    )
 
-if "disabled" not in st.session_state:
-    st.session_state["disabled"] = False
-
-
-placeholder = st.empty()
-btn = placeholder.button(
-    "Commencer l'ECOS", disabled=st.session_state.disabled, key="ECOS_go"
-)
-
-if btn:
-    st.session_state["disabled"] = True
-    st.session_state["timer"] = True
-    placeholder.button(
-        "Commencer l'ECOS", disabled=st.session_state.disabled, key="ECOS_running"
+    st.subheader("Debriefing et corrections")
+    st.markdown(
+        """
+    Cliquez sur la page "✅ Correction" après avoir fait l'ECOS !
+    """
     )
 
 
-if st.session_state["timer"] == True:
-    html(my_html, height=50)
+with tab2:
 
-if st.button("Debug mode"):
-    debug = "On"
-else:
-    debug = "Off"
+    if "answer" not in st.session_state:
+        st.session_state.answer = ""
 
-user_input = get_text()
+    if "generated" not in st.session_state:
+        st.session_state["generated"] = []
 
-if user_input:
-    output = query(
-        user_input, debug, one_time_list, model, lemmatizer, words, classes, data
-    )
-    st.session_state.past.append(user_input)
-    st.session_state.generated.append(output)
+    if "past" not in st.session_state:
+        st.session_state["past"] = []
 
-if st.session_state["generated"]:
-    for i in range(len(st.session_state["generated"]) - 1, -1, -1):
-        message(st.session_state["generated"][i], key=str(i), avatar_style="pixel-art")
-        if st.session_state["generated"][i] in image_dict.keys():
-            st.image(
-                image_dict[st.session_state["generated"][i]], caption=None, width=190
-            )
-        if st.session_state["generated"][i] in sound_dict.keys():
-            st.audio(
-                sound_dict[st.session_state["generated"][i]],
-                format="audio/mp3",
-                start_time=0,
-            )
-        message(
-            st.session_state["past"][i],
-            is_user=True,
-            key=str(i) + "_user",
-            avatar_style="pixel-art-neutral",
+    if "one_time_intent" not in st.session_state:
+        st.session_state.one_time_intent = []
+
+    if "timer" not in st.session_state:
+        st.session_state["timer"] = False
+
+    if "disabled" not in st.session_state:
+        st.session_state["disabled"] = False
+
+    if st.button("Debug mode"):
+        debug = "On"
+    else:
+        debug = "Off"
+
+    user_input = get_text()
+
+    if user_input:
+        output = query(
+            user_input, debug, one_time_list, model, lemmatizer, words, classes, data
         )
-    df = pd.DataFrame(
-        list(zip(st.session_state["past"], st.session_state["generated"]))
-    )
-    df.columns = ["Vous", "Votre patient·e"]
-    tsv = df.drop_duplicates().to_csv(sep="\t", index=False)
-    st.download_button(
-        label="Téléchargez votre conversation",
-        data=tsv,
-        file_name="conversation.tsv",
-        mime="text/tsv",
+        st.session_state.past.append(user_input)
+        st.session_state.generated.append(output)
+
+    if st.session_state["generated"]:
+        for i in range(len(st.session_state["generated"]) - 1, -1, -1):
+            message(
+                st.session_state["generated"][i], key=str(i), avatar_style="pixel-art"
+            )
+            if st.session_state["generated"][i] in image_dict.keys():
+                st.image(image_dict[st.session_state["generated"][i]], caption=None)
+            if st.session_state["generated"][i] in sound_dict.keys():
+                st.audio(
+                    sound_dict[st.session_state["generated"][i]],
+                    format="audio/mp3",
+                    start_time=0,
+                )
+            message(
+                st.session_state["past"][i],
+                is_user=True,
+                key=str(i) + "_user",
+                avatar_style="pixel-art-neutral",
+            )
+with tab3:
+    if st.session_state["generated"]:
+        df = pd.DataFrame(
+            list(zip(st.session_state["past"], st.session_state["generated"]))
+        )
+        df.columns = ["Vous", "Votre patient·e"]
+        tsv = df.drop_duplicates().to_csv(sep="\t", index=False)
+        st.download_button(
+            label="Cliquez ici pour télécharger votre conversation",
+            data=tsv,
+            file_name="conversation_ky_sdd328_i106.tsv",
+            mime="text/tsv",
+        )
+    st.markdown(
+        """
+        **Téléchargez la conversation et envoyez la via ce google form :** 
+        > [https://forms.gle/](https://forms.gle/)
+
+        Vous receverez automatiquement le lien de la grille d'évaluation !
+        """
     )
