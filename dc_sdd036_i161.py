@@ -298,7 +298,7 @@ with tab2:
 with tab3:
 
     st.markdown(
-        "Téléchargez la conversation et envoyez la à [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr). Je vous enverrai la grille de correction!"
+        "Téléchargez la conversation et envoyez la via ce google form [https://forms.gle/KovinhnQigg17Qbr5](https://forms.gle/KovinhnQigg17Qbr5). Vous receverez automatiquement le lien de la grille d'évaluation !"
     )
     if st.session_state["generated"]:
         df = pd.DataFrame(
