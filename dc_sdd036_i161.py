@@ -3,6 +3,7 @@ from streamlit.components.v1 import html
 from streamlit_chat import message
 import pandas as pd
 from PIL import Image
+import time
 import nltk
 from src.intents import INTENTS, image_dict, sound_dict
 from src.utils import (
@@ -20,7 +21,7 @@ from src.utils import (
 st.set_page_config(
     page_title="ECOS SDD 36 - M. Ledoux",
     page_icon=":robot:",
-    initial_sidebar_state="expanded",
+    # initial_sidebar_state="expanded",
 )
 
 nltk.download("omw-1.4", quiet=True)
@@ -32,25 +33,12 @@ st.sidebar.image(image_pg, caption=None, width=100)
 st.sidebar.header("ECOS Chatbot: Patient simulé par l'intelligence artificielle")
 st.sidebar.markdown(
     """
-- *Contexte:*
 
-Vous êtes interne aux urgences.
-Le patient que vous allez prendre en charge se présente spontanément aux urgences.
+**Lisez l'énoncé et lancez vous en disant bonjour à votre patient(e) !**
 
-M. Ledoux Jules, 65 ans présente des douleurs lombaires à droite depuis 4 jours. 
-Il a consulté son médecin traitant il y a 2 jours à ce sujet qui lui a diagnostiqué une colique néphrétique. 
-Il lui a prescrit du Ketoprofène et du Paracetamol. Les douleurs persistent malgré le traitement ce qui a poussé M. Ledoux à venir aux urgences.  
-Nous sommes vendredi soir il est 21h.   
-A l'arrivée ses constantes sont : TA 11/8, FC 107 bpm, température 38,8°C.
-Vous n'avez pas à réaliser d'examen clinique. 
-
-- *Objectifs:*
-
-Vous devez évoquer une hypothèse diagnostique et prévoir les examens nécessaires pour la confirmer. 
-Vous devez initier la prise en charge thérapeutique. 
+ECOS proposé par Delphine Coudray et Kévin Yauy.  
 
 Contact: [d-coudray@chu-montpellier.fr](mailto:d-coudray@chu-montpellier.fr) & [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr)
-
 """
 )
 
@@ -184,83 +172,122 @@ intents = get_intents()
 intents_perso = personalize_intents_load(intents, patient_descriptions)
 data = get_data(sdd, intents_perso)
 model, words, classes, lemmatizer = model_training_load(data)
+st.header("Box 2 des urgences, 21h")
 
-st.header("Box 4 des urgences, 22h")
+(
+    tab1,
+    tab2,
+    tab3,
+) = st.tabs(["📝 Fiche Etudiant", "🕑 Commencez l'ECOS", "✅ Correction"])
 
-if "answer" not in st.session_state:
-    st.session_state.answer = ""
+with tab1:
 
-if "generated" not in st.session_state:
-    st.session_state["generated"] = []
+    st.subheader("Contexte")
+    st.markdown(
+        """
+    Vous êtes interne aux urgences.
+    Le patient que vous allez prendre en charge se présente spontanément aux urgences.
 
-if "past" not in st.session_state:
-    st.session_state["past"] = []
+    M. Ledoux Jules, ancien infirmer aux urgences, 65 ans présente des douleurs lombaires à droite depuis 4 jours. 
+    Il a consulté son médecin traitant il y a 2 jours à ce sujet qui lui a diagnostiqué une colique néphrétique. 
+    Il lui a prescrit du Ketoprofène et du Paracetamol. Les douleurs persistent malgré le traitement ce qui a poussé M. Ledoux à venir aux urgences.  
+    Nous sommes vendredi soir il est 21h.   
 
-if "one_time_intent" not in st.session_state:
-    st.session_state.one_time_intent = []
+    A l'arrivée ses constantes sont : TA 11/8, FC 107 bpm, température 38,8°C.
+    Vous n'avez pas à réaliser d'examen clinique. 
+    )
+    """
+    )
+    st.subheader("Objectifs")
+    st.markdown(
+        """
+    - Prevoyez les examens nécessaires pour avancer dans votre diagnostic.
+    - Vous devez initier la prise en charge thérapeutique. 
+    """
+    )
 
-if "timer" not in st.session_state:
-    st.session_state["timer"] = False
+    st.subheader("Pret ?")
+    st.markdown(
+        """
+    Cliquez sur la page "🕑 Commencez l'ECOS" !
+    """
+    )
 
-if "disabled" not in st.session_state:
-    st.session_state["disabled"] = False
-
-
-placeholder = st.empty()
-btn = placeholder.button(
-    "Commencer l'ECOS", disabled=st.session_state.disabled, key="ECOS_go"
-)
-
-if btn:
-    st.session_state["disabled"] = True
-    st.session_state["timer"] = True
-    placeholder.button(
-        "Commencer l'ECOS", disabled=st.session_state.disabled, key="ECOS_running"
+    st.subheader("Briefing et corrections")
+    st.markdown(
+        """
+    Cliquez sur la page "✅ Correction" après avoir fait l'ECOS!
+    """
     )
 
 
-if st.session_state["timer"] == True:
-    html(my_html, height=50)
+with tab2:
 
-if st.button("Debug mode"):
-    debug = "On"
-else:
-    debug = "Off"
+    if "answer" not in st.session_state:
+        st.session_state.answer = ""
 
-user_input = get_text()
+    if "generated" not in st.session_state:
+        st.session_state["generated"] = []
 
-if user_input:
-    output = query(
-        user_input, debug, one_time_list, model, lemmatizer, words, classes, data
-    )
-    st.session_state.past.append(user_input)
-    st.session_state.generated.append(output)
+    if "past" not in st.session_state:
+        st.session_state["past"] = []
 
-if st.session_state["generated"]:
-    for i in range(len(st.session_state["generated"]) - 1, -1, -1):
-        message(st.session_state["generated"][i], key=str(i), avatar_style="pixel-art")
-        if st.session_state["generated"][i] in image_dict.keys():
-            st.image(image_dict[st.session_state["generated"][i]], caption=None)
-        if st.session_state["generated"][i] in sound_dict.keys():
-            st.audio(
-                sound_dict[st.session_state["generated"][i]],
-                format="audio/mp3",
-                start_time=0,
-            )
-        message(
-            st.session_state["past"][i],
-            is_user=True,
-            key=str(i) + "_user",
-            avatar_style="pixel-art-neutral",
+    if "one_time_intent" not in st.session_state:
+        st.session_state.one_time_intent = []
+
+    if "timer" not in st.session_state:
+        st.session_state["timer"] = False
+
+    if "disabled" not in st.session_state:
+        st.session_state["disabled"] = False
+
+    if st.button("Debug mode"):
+        debug = "On"
+    else:
+        debug = "Off"
+
+    user_input = get_text()
+
+    if user_input:
+        output = query(
+            user_input, debug, one_time_list, model, lemmatizer, words, classes, data
         )
-    df = pd.DataFrame(
-        list(zip(st.session_state["past"], st.session_state["generated"]))
+        st.session_state.past.append(user_input)
+        st.session_state.generated.append(output)
+
+    if st.session_state["generated"]:
+        for i in range(len(st.session_state["generated"]) - 1, -1, -1):
+            message(
+                st.session_state["generated"][i], key=str(i), avatar_style="pixel-art"
+            )
+            if st.session_state["generated"][i] in image_dict.keys():
+                st.image(image_dict[st.session_state["generated"][i]], caption=None)
+            if st.session_state["generated"][i] in sound_dict.keys():
+                st.audio(
+                    sound_dict[st.session_state["generated"][i]],
+                    format="audio/mp3",
+                    start_time=0,
+                )
+            message(
+                st.session_state["past"][i],
+                is_user=True,
+                key=str(i) + "_user",
+                avatar_style="pixel-art-neutral",
+            )
+with tab3:
+
+    st.markdown(
+        "Téléchargez la conversation et envoyez la à [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr). Je vous enverrai la grille de correction!"
     )
-    df.columns = ["Vous", "Votre patient·e"]
-    tsv = df.drop_duplicates().to_csv(sep="\t", index=False)
-    st.download_button(
-        label="Téléchargez votre conversation",
-        data=tsv,
-        file_name="conversation.tsv",
-        mime="text/tsv",
-    )
+    if st.session_state["generated"]:
+        df = pd.DataFrame(
+            list(zip(st.session_state["past"], st.session_state["generated"]))
+        )
+        df.columns = ["Vous", "Votre patient·e"]
+        tsv = df.drop_duplicates().to_csv(sep="\t", index=False)
+        st.download_button(
+            label="Téléchargez votre conversation",
+            data=tsv,
+            file_name="conversation_dc_sdd036_i161.tsv",
+            mime="text/tsv",
+        )

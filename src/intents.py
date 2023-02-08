@@ -256,6 +256,8 @@ INTENTS = [
             "Au revoir madame",
             "On se revoit bientot.",
             "A bientôt madame",
+            "Bonne journée",
+            "Prenez rendez vous, vous pouvez rentrer chez vous",
             "Ciao",
             "Bye bye",
             "A bientôt",
