@@ -217,7 +217,6 @@ with tab1:
 
     A l'arrivée ses constantes sont : TA 11/8, FC 107 bpm, température 38,8°C.
     Vous n'avez pas à réaliser d'examen clinique. 
-    )
     """
     )
     st.subheader("Objectifs")
