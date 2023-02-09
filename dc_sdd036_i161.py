@@ -144,8 +144,9 @@ sdd = [
         "tag": "analyseImagerieExploration",
         "patterns": [
             "Vous allez faire un scanner abdominopelvien afin de voir la cause de vos fievres et vos douleurs.",
-            "je vais vous prescrire un scanner abdominopelvien",
-            "on va faire un scanner de l'abdomen",
+            "je vais vous prescrire un scanner abdominopelvien sans injection ",
+            "on va faire un scanner de l'abdomen sans injection",
+            "on va faire un scanner",
             "je vais vous prescrire un scanner et un examen des urines.",
             "Le bilan sanguin présente une insuffisance rénale légère et syndrome inflammatoire biologique. Il faut que vous passiez un scanner de l'abdomen.  ",
         ],
