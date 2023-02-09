@@ -34,9 +34,9 @@ st.sidebar.markdown(
     """
 **Lisez l'énoncé et lancez vous en disant bonjour à votre patient(e) !**
 
-ECOS proposé par Matthieu Villesot et Kévin Yauy.  
+ECOS proposé par Matthieu Villessot et Kévin Yauy.  
 
-Contact: [m-villesot@chu-montpellier.fr](mailto:m-villesot@chu-montpellier.fr) & [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr)
+Contact: [m-villessot@chu-montpellier.fr](mailto:m-villessot@chu-montpellier.fr) & [kevin.yauy@chu-montpellier.fr](mailto:kevin.yauy@chu-montpellier.fr)
 
 """
 )
@@ -98,7 +98,7 @@ patient_descriptions = {
     ],
     "stress": ["J'ai peur d'avoir la maladie de Parkinson.."],
     "age": ["J'ai 55 ans"],
-    "antecedant": ["J'ai de l'hypertension. Je prends de l'AMLOR le matin."],
+    "antecedant": ["J'ai de l'hypertension. Je prends de l'amlodipine le matin."],
     "antecedantfam": ["Pas à ma connaissance", "Je ne crois pas"],
     "howareyou": ["Ca va Docteur.", "Un peu stressée mais ca va."],
     "tabac": ["Non Docteur."],
@@ -106,22 +106,43 @@ patient_descriptions = {
 
 sdd = [
     {
+        "tag": "suspicion",
+        "patterns": [
+            "Pourquoi pensez vous avoir la maladie de parkinson ?",
+            "Qu'est ce qui vous fait penser que vous avez la maladie de Parkinson ?",
+            "Qu'est ce qui vous fait pensez que vous avez une maladie de PArkinson ,",
+            "pourquoi pensez vous avoir une maladie de Parkinson  ?",
+        ],
+        "responses": ["Je n'arrive pas à arreter de trembler du bras droit..."],
+    },
+    {
         "tag": "annonce",
         "patterns": [
             "Vous avez bien fait, nous allons prendre le temps de vous expliquer la maladie de Parkinson.",
             "En effet, vous avez des symptomes pouvant faire penser à une maladie de Parkinson",
             "A l'examen, je retrouve des elements pouvant en effet indiquer que vous êtes atteint de la maladie de Parkison.",
+            "Les symptômes que vous présentez sont évocateur de syndrome parkinsonien, dont la maladie la plus représentative est la maladie de Parkinson.",
         ],
-        "responses": [
-            "Je vous ecoute Docteur.",
-            "Dites moi en plus Docteur s'il vous plait.",
-        ],
+        "responses": ["Dites moi en plus Docteur s'il vous plait."],
     },
     {
         "tag": "explorationParkinson",
         "patterns": [
-            "Vous présentez des tremblements, une lenteur aux mouvements et une rigidité qui peut faire penser à une maladie de Parkinson. il s'agit d'une maladie qui est due à un déficit d'une molécule nommé dopamine dans le cerveau.",
-            "A l'examen, je retrouve des elements cliniques, comme des tremblements et une rigidité de vos mouvements. Il s'agit d'une maladie qui est due à un déficit d'une molécule nommé dopamine dans le cerveau.",
+            "Vous présentez des tremblements, une lenteur aux mouvements et une rigidité qui peut faire penser à une maladie de Parkinson. ",
+            "A l'examen, je retrouve des elements cliniques, comme des tremblements et une rigidité de vos mouvements.",
+            "Alors les symptomes que vous présentez, le tremblement de repos, la lenteur dans vos mouvements me font penser à une maladie de parkison\n",
+            "L'examen clinique montre un tremblement de repos, une rigidité, une lenteur évocatrice de maladie de PArkinson\n",
+            "Alors les symptomes, les signes cliniques que vous présentez, notamment le tremblement de repos, la rigidité, la lenteur font évoquer une maladie de PARKINSON.",
+        ],
+        "responses": ["Qu'est ce qui cause la maladie de Parkinson?"],
+    },
+    {
+        "tag": "explicationParkinson",
+        "patterns": [
+            "il s'agit d'une maladie qui est due à un déficit d'une molécule nommé dopamine dans le cerveau.",
+            "Il s'agit d'une maladie qui est due à un déficit d'une molécule nommé dopamine dans le cerveau",
+            "C'est une maladie neurodégénérative qui entraine un manque de dopamine.",
+            "Il s'agit un déficit en dopamine dans le cerveau\n",
         ],
         "responses": ["Mais vous êtes sur ? Y'a pas besoin d'examen complémentaires ?"],
     },
@@ -131,22 +152,37 @@ sdd = [
             "Tout à fait, le diagnostic est uniquement clinique. Il n'y a pas besoin de réaliser d'examen complémentaire. Le diagnostic de certitude est réalisé avec le suivi de l'absence d'autres signes pour un autre syndrome parkinsonien. Nous pourrons vous proposer un taritement dont la réponse nous orientera également sur le diagnostic.",
             "Tout à fait, le diagnostic est uniquement clinique. Il n'y a pas besoin de réaliser d'examen complémentaire. ",
             "Il n'y a pas besoin de réaliser d'examen complémentaire. Le diagnostic de certitude est réalisé avec le suivi de l'absence d'autres signes pour un autre syndrome parkinsonien. Nous pourrons vous proposer un taritement dont la réponse nous orientera également sur le diagnostic.",
+            "Le diagnostic de maladie de Parkinson est un diagnostic clinique, mais seul le suivi et la réponse au traitement permettront d'affirmer le diagnostic\n",
+            "Non le diagnostic est clinique mais c'est le suivi, votre réponse au traitement qui permettront d'affirmer le diagnostic\n",
         ],
-        "responses": ["Est-ce que c'est grave ?"],
+        "responses": ["Est-ce que c'est grave ? Est ce qu'on peut en guérir ?"],
     },
     {
         "tag": "pronosticParkinson",
         "patterns": [
             "Il s'agit d'une maladie dont l'evolution propre à chaque individu. Si on ne peut pas la guérir, on peut vous proposer des traitements pour essayer de réduire vos symptomes.",
             "Il s'agit d'une maladie dont l'evolution propre à chaque individu. Si on ne peut pas la guérir, on peut vous proposer des traitements pour essayer de réduire vos tremblements et vos lenteurs de mouvements.",
+            "Non ce n'est pas une maladie grave, mais chronique qui pourra avoir un retentissement sur votre quotidien C'est l'objectif du traitement de limiter son impact sur votre quotidien, avec une très grande efficacité initiale",
+            "Non ce n'est pas une maladie curable, mais l'évolution est propre à chacun, c'est le suivi qui nous permettra de dire si cette maladie est invalidante ou non chez vous, et comment s'adapter au mieux",
         ],
         "responses": ["Est-ce que je peux vivre normalement ?"],
     },
     {
         "tag": "traitementParkinson",
         "patterns": [
-            "S'il n'existe pas de traitement pour guerir, il existe des traitements pour éviter vos symptomes, qui essaye de combler le déficit en dopamine qu'on retrouve dans la maladie de Parkinson. Ces traitementst sont des agonistes dopaminergiques comme la Levodopa. Ce traitement peut avoir des effets secondaires.",
+            "On a des traitements qui peuvent soulager vos symptomes.",
+            "On a des traitements symptomatiques.",
+            "Selon la gène causée par vos tremblements ou mouvements, je peux vous proposer des traitements pour soulager vos symptomes. Ces traitements ne permettent pas de guerir mais peuvent aider à calmer vos symptomes.",
+            "S'il n'existe pas de traitement pour guerir, il existe des traitements pour éviter vos symptomes, qui essaye de combler le déficit en dopamine qu'on retrouve dans la maladie de Parkinson.",
+        ],
+        "responses": ["Quel type de traitement existe? "],
+    },
+    {
+        "tag": "typetraitementParkinson",
+        "patterns": [
+            "S'il n'existe pas de traitement pour guerir, il existe des traitements pour éviter vos symptomes, qui essaye de combler le déficit en dopamine qu'on retrouve dans la maladie de Parkinson. Ces traitement sont des agonistes dopaminergiques comme la Levodopa. Ce traitement peut avoir des effets secondaires.",
             "Selon la gène causée par vos tremblements ou mouvements, je peux vous proposer des traitements pour soulager vos symptomes. Ces traitements ne permettent pas de guerir mais peuvent aider à calmer vos symptomes. Ils essayent de combler le déficit en dopamine, comme la levodopa qui est un agoniste dopaminergique. Ce traitement peut avoir des effets secondaires.",
+            "Alors on va introduire un traitement de vos symptomes pour que vous puissiez vivre le plus normalement possible, mais cela dépendra de votre réponse au traitement On a plusieurs types de traitement notamment la lévodopa et les agonistes dopaminergiques qui peuvent marcher sur vos symptomes\n",
         ],
         "responses": [
             "Je prend un traitement pour la tension, est-ce qu'il y a un risque ?"
@@ -155,7 +191,9 @@ sdd = [
     {
         "tag": "interactionParkinson",
         "patterns": [
-            "En effet, il y a un risque d'hypotension de l'association traitement anti-parkinsonien et Amlor."
+            "En effet, il y a un risque d'hypotension de l'association traitement anti-parkinsonien et Amlor.",
+            "Alors non il n'y a pas de risque majeur mais le traitement de la maladie de parkinson peut faire baisser la tension et il faudra etre vigilant à ce sujet.",
+            "non aucun risque",
         ],
         "responses": [
             "Je vais prendre le temps de réflechir avec vos explications Docteur."
@@ -286,7 +324,7 @@ with tab3:
     st.markdown(
         """
         **Téléchargez la conversation et envoyez la via ce google form :**
-        > [https://forms.gle/](https://forms.gle/)
+        > [https://forms.gle/dVspfgx88k2HNEci9](https://forms.gle/dVspfgx88k2HNEci9)
 
         Vous receverez automatiquement le lien de la grille d'évaluation !
         """
