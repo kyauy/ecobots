@@ -56,8 +56,8 @@ def get_intents():
 
 
 @st.cache(allow_output_mutation=True)
-def get_one_time_list_load(sdd):
-    return get_one_time_list(sdd)
+def get_one_time_list_load(sdd, exception_list):
+    return get_one_time_list(sdd, exception_list)
 
 
 @st.cache(allow_output_mutation=True)
@@ -92,6 +92,7 @@ def get_text():
 image_dict_sdd = {
     "Attendez Docteur, on m'a déjà fait faire une prise de sang tout à l'heure. Peut etre que vous aurez déjà des resultats ? *** Voici les resultats que vous retrouvez sur le dossier informatisé du patient ***": "img/dc_sdd036_bio.png",
     "Mon médecin m'avait demandé de faire un scanner, j'ai eu de la chance j'ai pu avoir un rendez-vous ce matin, voilà le compte rendu.": "img/dc_sdd036_scan.png",
+    "Entendu Docteur, je vous fais confiance.": "img/whatsapp_fin.png",
 }
 
 image_dict.update(image_dict_sdd)
@@ -145,10 +146,11 @@ sdd = [
         "patterns": [
             "Vous allez faire un scanner abdominopelvien afin de voir la cause de vos fievres et vos douleurs.",
             "je vais vous prescrire un scanner abdominopelvien sans injection ",
-            "on va faire un scanner de l'abdomen sans injection",
-            "on va faire un scanner",
+            "on va vous proposer un scanner de l'abdomen sans injection",
             "je vais vous prescrire un scanner et un examen des urines.",
             "Le bilan sanguin présente une insuffisance rénale légère et syndrome inflammatoire biologique. Il faut que vous passiez un scanner de l'abdomen.  ",
+            "on va faire un scanner",
+            "nous allons réaliser une échographie rénale ",
         ],
         "responses": [
             "Mon médecin m'avait demandé de faire un scanner, j'ai eu de la chance j'ai pu avoir un rendez-vous ce matin, voilà le compte rendu."
@@ -170,6 +172,10 @@ sdd = [
             "Je vous confirme que vous souffrez d'une pyélonéphrite. Je vais vous hospitaliser et vous mettre rapidement sous antibiothérapie intraveineuse. Je vais contacter le médecin urologue, car il va falloir drainer vos voies urinaires, afin de guerir de votre pyelonéphrite. ",
             "Vous allez rester à l'hopital ce soir, je vais vous mettre sous antibiotique afin de guerir de votre pyélonéphrite.",
             "Je vais vous mettre sous antibiothérapie. ",
+            "non, nous allons devoir vous hospitaliser",
+            "nous allons devoir débuter des antibiotiques",
+            "nous allons commencer un traitement antibiotiques par voie intraveineuse et lever l'obstruction par une sonde double J",
+            "nous allons commencer un traitement antibiotiques par voie intraveineuse et lever l'obstruction par une sonde double J avec un l'avis de l'urologue\n",
         ],
         "responses": ["Entendu Docteur, je vous fais confiance."],
     },
@@ -177,6 +183,14 @@ sdd = [
         "tag": "repas",
         "patterns": ["Quel est l'heure de votre dernier repas ?"],
         "responses": ["Hier soir vers 20h Docteur."],
+    },
+    {
+        "tag": "repasSuite",
+        "patterns": [
+            "Ne mangez plus jusqu'au nouvel ordre.",
+            "A partir de maintenant, restez à jeun.",
+        ],
+        "responses": ["Entendu Docteur. "],
     },
     {
         "tag": "depart",
@@ -188,9 +202,11 @@ sdd = [
     },
 ]
 
+exception_list = ["priseEnCharge", "repas", "repasSuite", "depart"]
+
 # Generation des messages et du modèle d'IA
 
-one_time_list = get_one_time_list_load(sdd)
+one_time_list = get_one_time_list_load(sdd, exception_list)
 intents = get_intents()
 intents_perso = personalize_intents_load(intents, patient_descriptions)
 data = get_data(sdd, intents_perso)

@@ -55,8 +55,8 @@ def get_intents():
 
 
 @st.cache(allow_output_mutation=True)
-def get_one_time_list_load(sdd):
-    return get_one_time_list(sdd)
+def get_one_time_list_load(sdd, exception_list):
+    return get_one_time_list(sdd, exception_list)
 
 
 @st.cache(allow_output_mutation=True)
@@ -87,6 +87,12 @@ def get_text():
 # JSON INPUT
 
 ## utilisation d'un dictionnaire pour représenter un fichier JSON d'intentions
+
+image_dict_sdd = {
+    "Je vais prendre le temps de réflechir avec vos explications avant de faire le test.": "img/whatsapp_fin.png",
+}
+
+image_dict.update(image_dict_sdd)
 
 patient_descriptions = {
     "name": ["Mme Miki"],
@@ -228,9 +234,11 @@ sdd = [
     },
 ]
 
+exception_list = []
+
 # Generation des messages et du modèle d'IA
 
-one_time_list = get_one_time_list_load(sdd)
+one_time_list = get_one_time_list_load(sdd, exception_list)
 intents = get_intents()
 data = get_data(sdd, intents)
 model, words, classes, lemmatizer = model_training_load(data)

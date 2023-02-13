@@ -232,10 +232,11 @@ def add_bg_from_url():
     )
 
 
-def get_one_time_list(sdd):
+def get_one_time_list(sdd, exception_list):
     one_time_list = []
     for element in sdd:
-        one_time_list.append(element["tag"])
+        if element not in exception_list:
+            one_time_list.append(element["tag"])
     return one_time_list
 
 

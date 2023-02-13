@@ -55,8 +55,8 @@ def get_intents():
 
 
 @st.cache(allow_output_mutation=True)
-def get_one_time_list_load(sdd):
-    return get_one_time_list(sdd)
+def get_one_time_list_load(sdd, exception_list):
+    return get_one_time_list(sdd, exception_list)
 
 
 @st.cache(allow_output_mutation=True)
@@ -87,6 +87,12 @@ def get_text():
 # JSON INPUT
 
 ## utilisation d'un dictionnaire pour représenter un fichier JSON d'intentions
+
+image_dict_sdd = {
+    "Je vais prendre le temps de réflechir avec vos explications Docteur.": "img/whatsapp_fin.png",
+}
+
+image_dict.update(image_dict_sdd)
 
 patient_descriptions = {
     "name": ["M. Denis"],
@@ -182,7 +188,8 @@ sdd = [
         "patterns": [
             "S'il n'existe pas de traitement pour guerir, il existe des traitements pour éviter vos symptomes, qui essaye de combler le déficit en dopamine qu'on retrouve dans la maladie de Parkinson. Ces traitement sont des agonistes dopaminergiques comme la Levodopa. Ce traitement peut avoir des effets secondaires.",
             "Selon la gène causée par vos tremblements ou mouvements, je peux vous proposer des traitements pour soulager vos symptomes. Ces traitements ne permettent pas de guerir mais peuvent aider à calmer vos symptomes. Ils essayent de combler le déficit en dopamine, comme la levodopa qui est un agoniste dopaminergique. Ce traitement peut avoir des effets secondaires.",
-            "Alors on va introduire un traitement de vos symptomes pour que vous puissiez vivre le plus normalement possible, mais cela dépendra de votre réponse au traitement On a plusieurs types de traitement notamment la lévodopa et les agonistes dopaminergiques qui peuvent marcher sur vos symptomes\n",
+            "Alors on va introduire un traitement de vos symptomes pour que vous puissiez vivre le plus normalement possible, mais cela dépendra de votre réponse au traitement On a plusieurs types de traitement notamment la lévodopa et les agonistes dopaminergiques qui peuvent marcher sur vos symptomes",
+            "nous pouvons vous proposer un traitement par dopamine",
         ],
         "responses": [
             "Je prend un traitement pour la tension, est-ce qu'il y a un risque ?"
@@ -194,6 +201,7 @@ sdd = [
             "En effet, il y a un risque d'hypotension de l'association traitement anti-parkinsonien et Amlor.",
             "Alors non il n'y a pas de risque majeur mais le traitement de la maladie de parkinson peut faire baisser la tension et il faudra etre vigilant à ce sujet.",
             "non aucun risque",
+            "Oui il y a un risque d'hypotension.",
         ],
         "responses": [
             "Je vais prendre le temps de réflechir avec vos explications Docteur."
@@ -201,9 +209,11 @@ sdd = [
     },
 ]
 
+exception_list = []
+
 # Generation des messages et du modèle d'IA
 
-one_time_list = get_one_time_list_load(sdd)
+one_time_list = get_one_time_list_load(sdd, exception_list)
 intents = get_intents()
 intents_perso = personalize_intents_load(intents, patient_descriptions)
 data = get_data(sdd, intents_perso)
