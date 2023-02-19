@@ -147,6 +147,7 @@ INTENTS = [
         "tag": "motif",
         "patterns": [
             "Qu'est ce qui vous amene?",
+            "qu'est-ce qui vous amène ?"
             "Savez vous pourquoi on se voit aujourd'hui ?",
             "pourquoi etes vous la aujourd'hui ?",
             "Vous vous souvenez pourquoi nous avons rendez-vous aujourd'hui?",
