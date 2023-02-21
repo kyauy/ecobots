@@ -86,10 +86,9 @@ INTENTS = [
             "avez vous faim ?",
         ],
         "responses": [
-            "Que voulez vous dire Docteur ?",
-            "C'est à dire Docteur ?",
-            "Je ne comprends pas Docteur ?",
-            "Vous pouvez répéter Docteur ?",
+            "Pouvez vous être plus précis Docteur ?",
+            "Pouvez vous reforumuler Docteur ? Je ne comprends pas",
+            "Vous pouvez être plus précis Docteur ?",
         ],
     },
     {
@@ -178,6 +177,9 @@ INTENTS = [
             "vous me dites ce que vous souhaitez faire, je reste à votre disposition."
             "Vous avez jusqu'à la fin de la grossesse pour y réfléchir.",
             "Vous êtes libre de prendre le temps que vous avez besoin.",
+            "Je vais me renseigner",
+            "Je vais me renseigner et je vous tiens au courant",
+            "Je ne sais pas mais je vais me renseigner",
         ],
         "responses": ["Entendu Docteur."],
     },
